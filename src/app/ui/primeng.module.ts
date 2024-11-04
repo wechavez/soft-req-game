@@ -9,6 +9,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { MenuModule } from 'primeng/menu';
 import { AvatarModule } from 'primeng/avatar';
+import { SkeletonModule } from 'primeng/skeleton';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   imports: [
@@ -22,6 +25,8 @@ import { AvatarModule } from 'primeng/avatar';
     PasswordModule,
     MenuModule,
     AvatarModule,
+    SkeletonModule,
+    ToastModule,
   ],
   exports: [
     MenubarModule,
@@ -34,7 +39,9 @@ import { AvatarModule } from 'primeng/avatar';
     PasswordModule,
     MenuModule,
     AvatarModule,
+    SkeletonModule,
+    ToastModule,
   ],
-  providers: [],
+  providers: [MessageService],
 })
 export class PrimeNgModule {}

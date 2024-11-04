@@ -22,9 +22,19 @@
     "lib": ["ES2022", "dom"],
     "paths": {
       "@components/*": ["./src/app/components/*"],
+      "@components": ["./src/app/components/index"],
       "@layouts/*": ["./src/app/layouts/*"],
+      "@layouts": ["./src/app/layouts/index"],
       "@pages/*": ["./src/app/pages/*"],
-      "@ui/*": ["./src/app/ui/*"]
+      "@pages": ["./src/app/pages/index"],
+      "@ui/*": ["./src/app/ui/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@services": ["./src/app/services/index"],
+      "@types/*": ["./src/app/types/*"],
+      "@types": ["./src/app/types/index"],
+      "@guards/*": ["./src/app/guards/*"],
+      "@guards": ["./src/app/guards/index"],
+      "@environments/*": ["./src/environments/*"]
     }
   },
   "angularCompilerOptions": {

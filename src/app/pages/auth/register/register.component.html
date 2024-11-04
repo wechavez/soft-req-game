@@ -1,42 +1,47 @@
-<p-card
-  header="Crear cuenta"
-  subheader="Completa tus datos para crear una cuenta"
-  class="block w-30rem"
->
-  <div class="flex flex-column gap-3">
-    <p-inputGroup>
-      <p-inputGroupAddon>
-        <i class="pi pi-envelope"></i>
-      </p-inputGroupAddon>
-      <input pInputText placeholder="Email" />
-    </p-inputGroup>
+<form [formGroup]="form" (ngSubmit)="register()">
+  <p-card
+    header="Crear cuenta"
+    subheader="Completa tus datos para crear una cuenta"
+    class="block w-30rem"
+  >
+    <p-toast />
+    <div class="flex flex-column gap-3">
+      <p-inputGroup>
+        <p-inputGroupAddon>
+          <i class="pi pi-envelope"></i>
+        </p-inputGroupAddon>
+        <input pInputText placeholder="Email" formControlName="email" />
+      </p-inputGroup>
 
-    <p-inputGroup>
-      <p-inputGroupAddon>
-        <i class="pi pi-user"></i>
-      </p-inputGroupAddon>
-      <input pInputText placeholder="Nombre de usuario" />
-    </p-inputGroup>
+      <p-inputGroup>
+        <input pInputText placeholder="Nombre" formControlName="first_name" />
+      </p-inputGroup>
 
-    <p-password
-      [toggleMask]="true"
-      [inputStyle]="{ width: '100%' }"
-      [style]="{ width: '100%' }"
-      placeholder="Contraseña"
-    ></p-password>
-  </div>
+      <p-inputGroup>
+        <input pInputText placeholder="Apellido" formControlName="last_name" />
+      </p-inputGroup>
 
-  <ng-template pTemplate="footer">
-    <p-button
-      routerLink="/"
-      label="Registrarse"
-      class="w-full"
-      styleClass="w-full"
-    />
-
-    <div class="flex justify-content-center align-items-center gap-1 mt-4">
-      <p>¿Ya tienes una cuenta?</p>
-      <a routerLink="/auth/login">Ingresar aquí.</a>
+      <p-password
+        [toggleMask]="true"
+        [inputStyle]="{ width: '100%' }"
+        [style]="{ width: '100%' }"
+        placeholder="Contraseña"
+        formControlName="password"
+      ></p-password>
     </div>
-  </ng-template>
-</p-card>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Registrarse"
+        class="w-full"
+        styleClass="w-full"
+        type="submit"
+      />
+
+      <div class="flex justify-content-center align-items-center gap-1 mt-4">
+        <p>¿Ya tienes una cuenta?</p>
+        <a routerLink="/auth/login">Ingresar aquí.</a>
+      </div>
+    </ng-template>
+  </p-card>
+</form>

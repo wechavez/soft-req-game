@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '@services';
 import { MenuItem } from 'primeng/api';
-import { PrimeNgModule } from '../../ui/primeng.module';
+import { PrimeNgModule } from '@ui/primeng.module';
 
 @Component({
   selector: 'app-main-navigation-bar',
@@ -14,7 +15,8 @@ export class MainNavigationBarComponent {
   navItems: MenuItem[] | undefined;
   menuItems: MenuItem[] | undefined;
 
-  constructor(private router: Router) {}
+  authService = inject(AuthService);
+  router = inject(Router);
 
   ngOnInit() {
     this.navItems = [
@@ -32,7 +34,14 @@ export class MainNavigationBarComponent {
 
     this.menuItems = [
       { label: 'Opciones', icon: 'pi pi-cog' },
-      { label: 'Salir', icon: 'pi pi-sign-out' },
+      {
+        label: 'Salir',
+        icon: 'pi pi-sign-out',
+        command: () => {
+          this.router.navigate(['auth', 'login']);
+          this.authService.logout();
+        },
+      },
     ];
   }
 }

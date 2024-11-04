@@ -1,15 +1,36 @@
 import { Routes } from '@angular/router';
+import { isLoggedGuard, isNotLoggedGuard } from '@guards';
+import { AuthLayoutComponent, GameLayoutComponent } from '@layouts';
 import {
   AnalyticsComponent,
   HomeComponent,
   LoginComponent,
   RegisterComponent,
-} from './pages';
-import { AuthLayoutComponent, GameLayoutComponent } from './layouts';
+} from '@pages';
 
 export const routes: Routes = [
   {
+    path: 'auth',
+    component: AuthLayoutComponent,
+    canActivate: [isNotLoggedGuard],
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+      {
+        path: '**',
+        redirectTo: 'login',
+      },
+    ],
+  },
+  {
     path: 'play',
+    canActivate: [isLoggedGuard],
     component: GameLayoutComponent,
     children: [
       {
@@ -19,20 +40,6 @@ export const routes: Routes = [
       {
         path: 'analytics',
         component: AnalyticsComponent,
-      },
-    ],
-  },
-  {
-    path: 'auth',
-    component: AuthLayoutComponent,
-    children: [
-      {
-        path: 'login',
-        component: LoginComponent,
-      },
-      {
-        path: 'register',
-        component: RegisterComponent,
       },
     ],
   },

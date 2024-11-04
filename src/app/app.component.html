@@ -1,1 +1,7 @@
-<router-outlet></router-outlet>
+@if (isChecking()) {
+<div class="m-3">
+  <p-skeleton height="3.5rem" styleClass="mb-2" />
+</div>
+} @else {
+<router-outlet />
+}

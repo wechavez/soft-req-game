@@ -1,35 +1,40 @@
-<p-card
-  header="Ingresar"
-  subheader="Ingresa tus credenciales"
-  class="block w-30rem"
->
-  <div class="flex flex-column gap-3">
-    <p-inputGroup>
-      <p-inputGroupAddon>
-        <i class="pi pi-user"></i>
-      </p-inputGroupAddon>
-      <input pInputText placeholder="Nombre de usuario" />
-    </p-inputGroup>
+<form [formGroup]="form" (ngSubmit)="login()">
+  <p-toast />
+  <p-card
+    header="Ingresar"
+    subheader="Ingresa tus credenciales"
+    class="block w-30rem"
+  >
+    <div class="flex flex-column gap-3">
+      <p-inputGroup>
+        <p-inputGroupAddon>
+          <i class="pi pi-at"></i>
+        </p-inputGroupAddon>
+        <input pInputText placeholder="Email" formControlName="email" />
+      </p-inputGroup>
 
-    <p-password
-      [toggleMask]="true"
-      [inputStyle]="{ width: '100%' }"
-      [style]="{ width: '100%' }"
-      placeholder="Contraseña"
-    ></p-password>
-  </div>
-
-  <ng-template pTemplate="footer">
-    <p-button
-      routerLink="/"
-      label="Ingresar"
-      class="w-full"
-      styleClass="w-full"
-    />
-
-    <div class="flex justify-content-center align-items-center gap-1 mt-4">
-      <p>¿No tienes una cuenta?</p>
-      <a routerLink="/auth/register">Registráte aquí.</a>
+      <p-password
+        [toggleMask]="true"
+        [inputStyle]="{ width: '100%' }"
+        [feedback]="false"
+        [style]="{ width: '100%' }"
+        formControlName="password"
+        placeholder="Contraseña"
+      ></p-password>
     </div>
-  </ng-template>
-</p-card>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Ingresar"
+        class="w-full"
+        styleClass="w-full"
+        type="submit"
+      />
+
+      <div class="flex justify-content-center align-items-center gap-1 mt-4">
+        <p>¿No tienes una cuenta?</p>
+        <a routerLink="/auth/register">Registráte aquí.</a>
+      </div>
+    </ng-template>
+  </p-card>
+</form>
