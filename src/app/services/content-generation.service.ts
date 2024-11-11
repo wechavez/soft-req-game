@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { RequirementsContentResponse, Requirement } from '@types';
-import { delay, map, Observable, of } from 'rxjs';
+import { Requirement } from '@types';
+import { delay, Observable, of } from 'rxjs';
 
 const fakeContent = {
   requirements: [

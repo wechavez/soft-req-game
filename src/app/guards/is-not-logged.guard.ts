@@ -10,7 +10,7 @@ export const isNotLoggedGuard: CanActivateFn = (route, state) => {
   return authService.refreshToken().pipe(
     switchMap((logged) => {
       if (logged) {
-        router.navigateByUrl('/play');
+        router.navigateByUrl('/');
         return of(false);
       }
 

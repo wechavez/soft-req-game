@@ -1,17 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, Signal, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@environments/environment';
 import { AuthResponse, User } from '@types';
-import {
-  catchError,
-  delay,
-  map,
-  Observable,
-  of,
-  switchMap,
-  tap,
-  throwError,
-} from 'rxjs';
+import { catchError, delay, Observable, of, switchMap, tap } from 'rxjs';
 
 type AuthStatus = 'loading' | 'logged' | 'not-logged';
 

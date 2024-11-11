@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
-import { isLoggedGuard, isNotLoggedGuard } from '@guards';
+import { isAdminGuard, isNotLoggedGuard, isStudentGuard } from '@guards';
 import { AuthLayoutComponent, GameLayoutComponent } from '@layouts';
 import {
   AnalyticsComponent,
   HomeComponent,
   LoginComponent,
   RegisterComponent,
+  AdminHomeComponent,
 } from '@pages';
 
 export const routes: Routes = [
@@ -29,8 +30,19 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'play',
-    canActivate: [isLoggedGuard],
+    path: 'admin',
+    canActivate: [isAdminGuard],
+    component: GameLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: AdminHomeComponent,
+      },
+    ],
+  },
+  {
+    path: '',
+    canActivate: [isStudentGuard],
     component: GameLayoutComponent,
     children: [
       {
@@ -45,6 +57,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'play',
+    redirectTo: '',
   },
 ];
