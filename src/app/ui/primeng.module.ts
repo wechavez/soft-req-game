@@ -12,6 +12,9 @@ import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { DragDropModule } from 'primeng/dragdrop';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @NgModule({
   imports: [
@@ -27,6 +30,9 @@ import { MessageService } from 'primeng/api';
     AvatarModule,
     SkeletonModule,
     ToastModule,
+    DragDropModule,
+    ProgressSpinnerModule,
+    ToolbarModule,
   ],
   exports: [
     MenubarModule,
@@ -41,6 +47,9 @@ import { MessageService } from 'primeng/api';
     AvatarModule,
     SkeletonModule,
     ToastModule,
+    DragDropModule,
+    ProgressSpinnerModule,
+    ToolbarModule,
   ],
   providers: [MessageService],
 })

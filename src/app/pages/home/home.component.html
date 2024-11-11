@@ -1,1 +1,31 @@
-<p>home works!</p>
+<p-toast />
+
+@if (gameStatus() === 'not-started') {
+<div class="flex-1 flex justify-content-center align-items-center">
+  <p-button
+    label="Iniciar Juego"
+    icon="pi pi-play-circle"
+    (onClick)="startGame()"
+  ></p-button>
+</div>
+} @else if (gameStatus() === 'loading') {
+<div class="flex-1 flex flex-column justify-content-center align-items-center">
+  <p-progressSpinner ariaLabel="loading" />
+  <p>Generando contenido...</p>
+</div>
+} @else if (gameStatus() === 'started') {
+<app-game-classification
+  [(gameStatus)]="gameStatus"
+  [(unclassifiedRequirements)]="unclassifiedRequirements"
+  [(selectedGoodRequirements)]="selectedGoodRequirements"
+  [(selectedBadRequirements)]="selectedBadRequirements"
+/>
+} @else if (gameStatus() === 'finished') {
+<app-game-results
+  [(gameStatus)]="gameStatus"
+  [unclassifiedRequirements]="unclassifiedRequirements()"
+  [selectedGoodRequirements]="selectedGoodRequirements()"
+  [selectedBadRequirements]="selectedBadRequirements()"
+  (clickTryAgain)="startGame()"
+/>
+}

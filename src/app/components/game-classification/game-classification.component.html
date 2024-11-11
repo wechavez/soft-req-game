@@ -1,0 +1,101 @@
+<div class="flex justify-content-between">
+  <p-button
+    severity="danger"
+    icon="pi pi-times"
+    label="Abandonar"
+    (onClick)="abandonGame()"
+  />
+
+  <p class="flex align-items-center gap-2 m-0">
+    <i class="pi pi-stopwatch" style="font-size: 1.5rem"></i>
+    {{ timeElapsed() }}
+  </p>
+
+  <p-button icon="pi pi-check" label="Revisar" (onClick)="checkResults()" />
+</div>
+
+<div
+  class="flex-1 p-3 border-1 border-dashed border-round"
+  pDroppable
+  (onDrop)="dropUnclassified()"
+>
+  @if (unclassifiedRequirements().length == 0) {
+  <div class="flex flex-column align-items-center gap-2">
+    <p class="text-center">Arrastre aquí los requisitos no clasificados</p>
+    <i class="pi pi-arrow-circle-down" style="font-size: 3rem"></i>
+  </div>
+  }
+  <ul class="list-none p-0 m-0 no-classified-container">
+    <li
+      *ngFor="let requirement of unclassifiedRequirements()"
+      class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white"
+      pDraggable
+      (onDragStart)="dragStart(requirement)"
+      (onDragEnd)="dragEnd()"
+    >
+      <span class="material-symbols-outlined">drag_indicator</span>
+      {{ requirement.text }}
+    </li>
+  </ul>
+</div>
+
+<div class="grid grid-nogutter gap-3" style="flex: 2">
+  <div
+    class="col p-2 border-1 border-dashed border-green-400 border-round"
+    pDroppable
+    (onDrop)="dropGood()"
+  >
+    <p class="text-center text-2xl font-semibold">No Ambiguos</p>
+
+    @if (selectedGoodRequirements().length == 0) {
+    <div class="flex flex-column align-items-center gap-2">
+      <p class="text-center">Arrastre aquí los requisitos no ambiguos</p>
+      <i class="pi pi-arrow-circle-down" style="font-size: 3rem"></i>
+    </div>
+    }
+    <ul
+      class="list-none flex flex-column gap-2 p-0 m-0"
+      *ngIf="selectedGoodRequirements"
+    >
+      <li
+        *ngFor="let requirement of selectedGoodRequirements()"
+        class="p-3 border-round shadow-1 bg-green-400 font-semibold flex align-items-center gap-2 border-1 border-white"
+        pDraggable
+        (onDragStart)="dragStart(requirement)"
+        (onDragEnd)="dragEnd()"
+      >
+        <span class="material-symbols-outlined">drag_indicator</span>
+        {{ requirement.text }}
+      </li>
+    </ul>
+  </div>
+  <div
+    class="col p-2 border-1 border-dashed border-pink-400 border-round"
+    pDroppable
+    (onDrop)="dropBad()"
+  >
+    <p class="text-center text-2xl font-semibold">Ambiguos</p>
+
+    @if (selectedBadRequirements().length == 0) {
+    <div class="flex flex-column align-items-center gap-2">
+      <p class="text-center">Arrastre aquí los requisitos ambiguos</p>
+      <i class="pi pi-arrow-circle-down" style="font-size: 3rem"></i>
+    </div>
+    }
+    <ul
+      class="list-none flex flex-wrap align-items-start gap-2 p-0 m-0"
+      *ngIf="selectedBadRequirements"
+    >
+      <li
+        *ngFor="let requirement of selectedBadRequirements()"
+        pDraggable
+        class="p-3 border-round shadow-1 bg-pink-400 font-semibold flex align-items-center gap-2 border-1 border-white"
+        (onDragStart)="dragStart(requirement)"
+        (onDragEnd)="dragEnd()"
+      >
+        <span class="material-symbols-outlined">drag_indicator</span>
+        {{ requirement.text }}
+      </li>
+    </ul>
+  </div>
+</div>

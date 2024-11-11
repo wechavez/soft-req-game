@@ -1,4 +1,4 @@
-<p-menubar [model]="navItems">
+<p-menubar [model]="navItems()">
   <ng-template pTemplate="item" let-item>
     @if (item.route) {
     <a [routerLink]="item.route" class="p-menuitem-link">
@@ -20,7 +20,7 @@
   </ng-template>
 
   <ng-template pTemplate="end">
-    <p-menu #menu [model]="menuItems" [popup]="true" />
+    <p-menu #menu [model]="menuItems()" [popup]="true" />
     <p-button
       icon="pi pi-user"
       severity="info"
