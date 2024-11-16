@@ -1,5 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, model, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  model,
+  output,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { StudentService } from '@services';
 import { GameStatus, Requirement, RequirementResult } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
 
@@ -8,26 +18,27 @@ import { PrimeNgModule } from '@ui/primeng.module';
   standalone: true,
   imports: [PrimeNgModule, CommonModule],
   templateUrl: './game-results.component.html',
-  styles: `
-    :host {
-      width: 100%;
-      max-width: 1024px;
-    }
-
-    p {
-      margin: 0;
-    }
-  `,
 })
 export class GameResultsComponent {
+  private studentService = inject(StudentService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  roomCode = computed(() => this.route.snapshot.params['room_code']);
+
   unclassifiedRequirements = input<Requirement[]>([]);
   selectedGoodRequirements = input<Requirement[]>([]);
   selectedBadRequirements = input<Requirement[]>([]);
 
   gameStatus = model<GameStatus>('not-started');
 
-  clickTryAgain = output<void>();
+  remainingAttempts = computed(
+    () => this.studentService.currentGameAttempt()?.remaining
+  );
+  isTheLastAttempt = computed(() => this.remainingAttempts() === 1);
 
+  clickTryAgain = output<void>();
+  clickBackToHome = output<void>();
   results = computed(() => {
     const results: RequirementResult[] = [];
 
@@ -53,8 +64,4 @@ export class GameResultsComponent {
     const total = this.results().length;
     return `${correct}/${total}`;
   });
-
-  returnToHome() {
-    this.gameStatus.set('not-started');
-  }
 }

@@ -11,7 +11,13 @@
     {{ timeElapsed() }}
   </p>
 
-  <p-button icon="pi pi-check" label="Revisar" (onClick)="checkResults()" />
+  <p-button
+    icon="pi pi-check"
+    label="Revisar"
+    [loading]="savingAttempt()"
+    [disabled]="savingAttempt()"
+    (onClick)="checkResults()"
+  />
 </div>
 
 <div

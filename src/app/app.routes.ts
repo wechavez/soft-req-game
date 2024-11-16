@@ -7,6 +7,8 @@ import {
   LoginComponent,
   RegisterComponent,
   AdminHomeComponent,
+  CoursesComponent,
+  HistoryComponent,
 } from '@pages';
 
 export const routes: Routes = [
@@ -32,7 +34,6 @@ export const routes: Routes = [
   {
     path: 'admin',
     canActivate: [isAdminGuard],
-    component: GameLayoutComponent,
     children: [
       {
         path: '',
@@ -46,12 +47,24 @@ export const routes: Routes = [
     component: GameLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'courses',
+        component: CoursesComponent,
+      },
+      {
+        path: 'game/:room_code',
         component: HomeComponent,
       },
       {
         path: 'analytics',
         component: AnalyticsComponent,
+      },
+      {
+        path: 'history',
+        component: HistoryComponent,
+      },
+      {
+        path: '**',
+        redirectTo: 'courses',
       },
     ],
   },

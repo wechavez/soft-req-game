@@ -30,7 +30,7 @@ export class AuthService {
   constructor() {}
 
   login({ email, password }: AuthBasicParams) {
-    const url = `${this.apiUrl}/login`;
+    const url = `${this.apiUrl}/auth/login`;
 
     return this.http
       .post<AuthResponse>(url, {
@@ -46,7 +46,7 @@ export class AuthService {
 
   register(params: AuthRegisterParams) {
     const { email, password, first_name, last_name } = params;
-    const url = `${this.apiUrl}/register`;
+    const url = `${this.apiUrl}/auth/register`;
 
     return this.http
       .post<AuthResponse>(url, {
@@ -63,7 +63,7 @@ export class AuthService {
   }
 
   refreshToken(): Observable<boolean> {
-    const url = `${this.apiUrl}/refresh-token`;
+    const url = `${this.apiUrl}/auth/refresh-token`;
 
     this.authStatus.set('loading');
 

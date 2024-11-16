@@ -1,14 +1,37 @@
 <p-toast />
 
-@if (gameStatus() === 'not-started') {
-<div class="flex-1 flex justify-content-center align-items-center">
-  <p-button
-    label="Iniciar Juego"
-    icon="pi pi-play-circle"
-    (onClick)="startGame()"
-  ></p-button>
+@if (gameStatus() === 'not-started') { @if (loadingAttemptInfo()) {
+<div class="flex-1 flex flex-column justify-content-center align-items-center">
+  <p-progressSpinner ariaLabel="loading" />
+  <p>Verificando intentos restantes...</p>
 </div>
-} @else if (gameStatus() === 'loading') {
+} @else {
+<div class="flex-1 flex flex-column justify-content-center align-items-center">
+  <p class="m-0 mb-2 text-center text-2xl">Curso: {{ roomCode() }}</p>
+  <p class="m-0 mb-4 text-center text-xl text-gray-400">
+    @if (remainingAttempts() && remainingAttempts()! > 0) { Intentos restantes:
+    {{ remainingAttempts() }}
+    } @else { No tienes más intentos restantes. }
+  </p>
+  <div class="flex flex-column gap-2 justify-content-center">
+    @if (remainingAttempts() && remainingAttempts()! > 0) {
+    <p-button
+      label="Iniciar Juego"
+      icon="pi pi-play-circle"
+      (onClick)="startGame()"
+      styleClass="w-15rem"
+    ></p-button>
+    }
+    <p-button
+      label="Volver a Cursos"
+      icon="pi pi-arrow-left"
+      severity="secondary"
+      (onClick)="navigateToCourses()"
+      styleClass="w-15rem"
+    ></p-button>
+  </div>
+</div>
+} } @else if (gameStatus() === 'loading') {
 <div class="flex-1 flex flex-column justify-content-center align-items-center">
   <p-progressSpinner ariaLabel="loading" />
   <p>Generando contenido...</p>
@@ -27,5 +50,6 @@
   [selectedGoodRequirements]="selectedGoodRequirements()"
   [selectedBadRequirements]="selectedBadRequirements()"
   (clickTryAgain)="startGame()"
+  (clickBackToHome)="reloadGameAgain()"
 />
 }

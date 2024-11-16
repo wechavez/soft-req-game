@@ -1,0 +1,99 @@
+@if (loading()) {
+<div class="flex justify-content-between align-items-center mb-4">
+  <p-skeleton height="34px" width="20rem" />
+</div>
+
+<p-skeleton height="220px" />
+
+} @else {
+<div class="flex justify-content-between align-items-center mb-4">
+  <h1 class="m-0">Historial de Juegos</h1>
+</div>
+
+<p-card>
+  <p-table
+    #attemptsTable
+    [value]="attempts()"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [globalFilterFields]="['room_code', 'room_name', 'created_at']"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <p-iconField iconPosition="left" class="ml-auto">
+          <p-inputIcon>
+            <i class="pi pi-search"></i>
+          </p-inputIcon>
+          <input
+            pInputText
+            type="text"
+            (input)="search($event)"
+            placeholder="Buscar"
+          />
+        </p-iconField>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>
+          <div class="flex align-items-center">
+            Fecha
+            <p-columnFilter type="date" field="created_at" display="menu" />
+          </div>
+        </th>
+        <th>
+          <div class="flex align-items-center gap-2">
+            Código
+            <p-columnFilter type="text" field="room_code" display="menu" />
+          </div>
+        </th>
+        <th>
+          <div class="flex align-items-center gap-2">
+            <i class="pi pi-briefcase"></i>
+            Curso
+          </div>
+        </th>
+        <th>
+          <div class="flex align-items-center gap-2">
+            <i class="pi pi-angle-up"></i>
+            Max. Intentos
+          </div>
+        </th>
+        <th>
+          <div class="flex align-items-center gap-2">
+            <i class="pi pi-arrow-right"></i>
+            Movimientos
+          </div>
+        </th>
+        <th>
+          <div class="flex align-items-center gap-2">
+            <i class="pi pi-clock"></i>
+            Tiempo
+          </div>
+        </th>
+        <th>
+          <div class="flex align-items-center gap-2">
+            <i class="pi pi-star"></i>
+            Puntaje
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-attempt>
+      <tr>
+        <td>{{ attempt.created_at | date : "dd/MM/yyyy - HH:mm" }}</td>
+        <td>
+          <p-chip [label]="attempt.room_code" />
+        </td>
+        <td>{{ attempt.room_name }}</td>
+        <td>{{ attempt.max_attempts }}</td>
+        <td>{{ attempt.movements }}</td>
+        <td>{{ attempt.time | appTakenTime }}</td>
+        <td>{{ (attempt.score * 100).toFixed(2) }}%</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+}

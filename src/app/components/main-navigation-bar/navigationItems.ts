@@ -4,9 +4,9 @@ import { User } from '@types';
 export const navigationItems: Record<User['role'], MenuItem[]> = {
   student: [
     {
-      label: 'Jugar',
-      icon: 'pi pi-play-circle',
-      route: '/',
+      label: 'Cursos',
+      icon: 'pi pi-book',
+      route: '/courses',
     },
     {
       label: 'Historial',
@@ -16,14 +16,14 @@ export const navigationItems: Record<User['role'], MenuItem[]> = {
   ],
   admin: [
     {
+      label: 'Cursos',
+      icon: 'pi pi-users',
+      route: '/admin',
+    },
+    {
       label: 'Analíticas',
       icon: 'pi pi-chart-bar',
       route: '/admin/analytics',
-    },
-    {
-      label: 'Administrar',
-      icon: 'pi pi-users',
-      route: '/admin',
     },
   ],
 };

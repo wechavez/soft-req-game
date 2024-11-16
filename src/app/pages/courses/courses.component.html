@@ -1,0 +1,87 @@
+<p-toast />
+
+@if (loadingCourses()) {
+<div class="flex justify-content-between align-items-center mb-4">
+  <p-skeleton height="40px" width="20rem" />
+
+  <p-skeleton height="40px" width="120px" />
+</div>
+<div class="grid">
+  @for (i of [1,2,3]; track i) {
+  <p-skeleton height="220px" class="col-12 sm:col-6 md:col-4" />
+  }
+</div>
+} @else {
+<div class="flex justify-content-between align-items-center mb-4">
+  <h1 class="m-0">Listado de Cursos</h1>
+
+  <p-button
+    label="Inscribirse"
+    icon="pi pi-plus"
+    (onClick)="openEnrollDialog()"
+  ></p-button>
+</div>
+
+<div class="grid">
+  @for (room of rooms(); track room.id) {
+  <p-card
+    header="{{ room.room_code }}"
+    subheader="{{ room.room_name }}"
+    class="col-12 sm:col-6 md:col-4"
+  >
+    <p class="m-0">{{ room.teacher_name }}</p>
+    <p class="m-0 text-gray-400">{{ room.teacher_email }}</p>
+    <ng-template pTemplate="footer">
+      <div class="flex gap-3">
+        <p-button
+          label="Ingresar"
+          severity="secondary"
+          class="w-full"
+          styleClass="w-full"
+          icon="pi pi-arrow-right"
+          (onClick)="navigateToGame(room.room_code)"
+          [loading]="courseAttemptLoading() === room.room_code"
+        />
+      </div>
+    </ng-template>
+  </p-card>
+  }
+</div>
+}
+
+<p-dialog
+  header="Inscribirse en curso"
+  [modal]="true"
+  [(visible)]="enrollDialogVisible"
+  [style]="{ width: '90%', maxWidth: '30rem' }"
+>
+  <form [formGroup]="enrollForm">
+    <span class="p-text-secondary block mb-5"
+      >Completa la información para inscribirte en un curso.</span
+    >
+    <div class="flex align-items-center gap-3 mb-3">
+      <label for="code" class="font-semibold w-6rem">Código</label>
+      <input
+        pInputText
+        id="code"
+        formControlName="room_code"
+        class="flex-auto"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="flex justify-content-end gap-2">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (onClick)="discardEnroll()"
+      />
+      <p-button
+        label="Inscribirse"
+        (onClick)="enrollInCourse()"
+        [disabled]="enrollForm.invalid || enrollInProgress()"
+        [loading]="enrollInProgress()"
+      />
+    </div>
+  </form>
+</p-dialog>

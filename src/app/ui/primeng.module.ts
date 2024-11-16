@@ -15,6 +15,13 @@ import { MessageService } from 'primeng/api';
 import { DragDropModule } from 'primeng/dragdrop';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { TabViewModule } from 'primeng/tabview';
+import { ChipModule } from 'primeng/chip';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 
 @NgModule({
   imports: [
@@ -33,6 +40,13 @@ import { ToolbarModule } from 'primeng/toolbar';
     DragDropModule,
     ProgressSpinnerModule,
     ToolbarModule,
+    TableModule,
+    DialogModule,
+    InputNumberModule,
+    TabViewModule,
+    ChipModule,
+    IconFieldModule,
+    InputIconModule,
   ],
   exports: [
     MenubarModule,
@@ -50,6 +64,13 @@ import { ToolbarModule } from 'primeng/toolbar';
     DragDropModule,
     ProgressSpinnerModule,
     ToolbarModule,
+    TableModule,
+    DialogModule,
+    InputNumberModule,
+    TabViewModule,
+    ChipModule,
+    IconFieldModule,
+    InputIconModule,
   ],
   providers: [MessageService],
 })

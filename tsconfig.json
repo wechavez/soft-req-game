@@ -34,7 +34,9 @@
       "@types": ["./src/app/types/index"],
       "@guards/*": ["./src/app/guards/*"],
       "@guards": ["./src/app/guards/index"],
-      "@environments/*": ["./src/environments/*"]
+      "@environments/*": ["./src/environments/*"],
+      "@pipes/*": ["./src/app/pipes/*"],
+      "@pipes": ["./src/app/pipes/index"]
     }
   },
   "angularCompilerOptions": {

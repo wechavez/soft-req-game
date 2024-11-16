@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
   inject,
   input,
   model,
@@ -9,7 +10,8 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { GameStatus, Requirement } from '@types';
+import { StudentService } from '@services';
+import { GameStatus, Requirement, RequirementResult } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
 import { MessageService } from 'primeng/api';
 
@@ -35,6 +37,7 @@ import { MessageService } from 'primeng/api';
 })
 export class GameClassificationComponent implements OnInit {
   messageService = inject(MessageService);
+  studentService = inject(StudentService);
 
   unclassifiedRequirements = model<Requirement[]>([]);
   selectedGoodRequirements = model<Requirement[]>([]);
@@ -44,26 +47,59 @@ export class GameClassificationComponent implements OnInit {
 
   gameStatus = model<GameStatus>('not-started');
 
-  timeElapsed = signal<string>('00:00');
+  savingAttempt = signal<boolean>(false);
+
+  timeElapsed = signal<string>('00:00:00');
   movesCount = signal<number>(0);
 
   private startTime = signal<number>(0);
   private timerInterval: number | undefined;
 
+  currentAttemptId = computed(
+    () => this.studentService.currentGameAttempt()?.id
+  );
+
   ngOnInit(): void {
     this.startTimer();
   }
+
+  results = computed(() => {
+    const results: RequirementResult[] = [];
+
+    this.selectedGoodRequirements().forEach((requirement) => {
+      results.push({
+        requirement,
+        wasCorrect: requirement.isValid === true,
+      });
+    });
+
+    this.selectedBadRequirements().forEach((requirement) => {
+      results.push({
+        requirement,
+        wasCorrect: requirement.isValid === false,
+      });
+    });
+
+    return results.sort((a, b) => a.requirement.no - b.requirement.no);
+  });
+
+  score = computed(() => {
+    const correct = this.results().filter((r) => r.wasCorrect).length;
+    const total = this.results().length;
+    return +(correct / total).toFixed(2);
+  });
 
   private startTimer() {
     this.startTime.set(Date.now());
     this.timerInterval = window.setInterval(() => {
       const elapsed = Date.now() - this.startTime();
-      const minutes = Math.floor(elapsed / 60000);
+      const hours = Math.floor(elapsed / 3600000);
+      const minutes = Math.floor((elapsed % 3600000) / 60000);
       const seconds = Math.floor((elapsed % 60000) / 1000);
       this.timeElapsed.set(
-        `${minutes.toString().padStart(2, '0')}:${seconds
+        `${hours.toString().padStart(2, '0')}:${minutes
           .toString()
-          .padStart(2, '0')}`
+          .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
       );
     }, 1000);
   }
@@ -90,7 +126,33 @@ export class GameClassificationComponent implements OnInit {
     }
 
     this.stopTimer();
-    this.gameStatus.set('finished');
+    this.submitResults();
+  }
+
+  submitResults() {
+    this.savingAttempt.set(true);
+    this.studentService
+      .updateAttemptStatusAndStats({
+        status: 'completed',
+        attemptId: +this.currentAttemptId()!,
+        movements: this.movesCount(),
+        score: this.score(),
+        time: this.timeElapsed(),
+      })
+      .subscribe({
+        next: () => {
+          this.savingAttempt.set(false);
+          this.gameStatus.set('finished');
+        },
+        error: (error) => {
+          this.savingAttempt.set(false);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.error.message,
+          });
+        },
+      });
   }
 
   dragStart(requirement: Requirement) {
