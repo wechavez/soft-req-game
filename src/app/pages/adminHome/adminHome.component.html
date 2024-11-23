@@ -1,90 +1,57 @@
-<div class="container p-4">
-  <div class="flex align-items-center justify-content-between mb-4">
-    <div class="flex align-items-center gap-2">
-      <i class="pi pi-sliders-v" style="font-size: 2rem"></i>
-      <h1 class="m-0">Panel de Administración</h1>
-    </div>
-
-    <p-menu #menu [model]="menuItems()" [popup]="true" />
-    <p-button
-      icon="pi pi-user"
-      severity="info"
-      (onClick)="menu.toggle($event)"
-    />
-  </div>
-
-  <div class="flex gap-4 mb-4">
-    <p-card subheader="Total Cursos" class="flex-1">
-      <p class="m-0 text-2xl font-bold">
-        {{ rooms().length }}
-      </p>
-    </p-card>
-    <p-card subheader="Estudiantes Registrados" class="flex-1">
-      <p class="m-0 text-2xl font-bold">20</p>
-    </p-card>
-    <p-card subheader="Tasa de Finalización" class="flex-1">
-      <p class="m-0 text-2xl font-bold">80%</p>
-    </p-card>
-  </div>
-
-  <p-tabView>
-    <p-tabPanel header="Cursos">
-      <p-table [value]="rooms()">
-        <ng-template pTemplate="caption">
-          <div class="flex align-items-center justify-content-between">
-            <h2 class="m-0">Listado de Cursos</h2>
-            <p-button
-              icon="pi pi-plus"
-              label="Nuevo"
-              (onClick)="showDialog()"
-            />
-          </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Max. Intentos</th>
-            <th>Acciones</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-room>
-          <tr>
-            <td>{{ room.room_code }}</td>
-            <td>{{ room.room_name }}</td>
-            <td>{{ room.max_attempts }}</td>
-            <td>
-              <div class="flex gap-2">
-                <p-button
-                  type="button"
-                  icon="pi pi-chart-bar"
-                  severity="secondary"
-                ></p-button>
-                <button
-                  pButton
-                  type="button"
-                  severity="danger"
-                  icon="pi pi-trash"
-                ></button>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </p-tabPanel>
-    <p-tabPanel header="Analíticas">
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-        odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-        voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
-        numquam eius modi.
-      </p>
-    </p-tabPanel>
-  </p-tabView>
+<div class="flex gap-4 mb-4">
+  <p-card subheader="Total Cursos" class="flex-1">
+    <p class="m-0 text-2xl font-bold">
+      {{ rooms().length }}
+    </p>
+  </p-card>
+  <p-card subheader="Estudiantes Registrados" class="flex-1">
+    <p class="m-0 text-2xl font-bold">20</p>
+  </p-card>
+  <p-card subheader="Tasa de Finalización" class="flex-1">
+    <p class="m-0 text-2xl font-bold">80%</p>
+  </p-card>
 </div>
+
+<p-card>
+  <p-table [value]="rooms()" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h2 class="m-0">Listado de Cursos</h2>
+        <p-button icon="pi pi-plus" label="Nuevo" (onClick)="showDialog()" />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Max. Intentos</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-room>
+      <tr>
+        <td>{{ room.room_code }}</td>
+        <td>{{ room.room_name }}</td>
+        <td>{{ room.max_attempts }}</td>
+        <td>
+          <div class="flex gap-2">
+            <p-button
+              type="button"
+              icon="pi pi-chart-bar"
+              severity="secondary"
+            ></p-button>
+            <button
+              pButton
+              type="button"
+              severity="danger"
+              icon="pi pi-trash"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
 
 <p-dialog
   header="Crear curso"

@@ -22,13 +22,6 @@ import { MenuItem } from 'primeng/api';
   imports: [CommonModule, PrimeNgModule, ReactiveFormsModule],
   templateUrl: './adminHome.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: `
-    .container {
-      width: 100%;
-      max-width: 1024px;
-      margin: 0 auto;
-    }
-  `,
 })
 export class AdminHomeComponent implements OnInit {
   private adminService = inject(AdminService);

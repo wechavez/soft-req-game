@@ -5,3 +5,4 @@ export { HomeComponent } from './home/home.component';
 export { AdminHomeComponent } from './adminHome/adminHome.component';
 export { CoursesComponent } from './courses/courses.component';
 export { HistoryComponent } from './history/history.component';
+export { CourseMetricsComponent } from './course-metrics/course-metrics.component';

@@ -1,0 +1,17 @@
+<div class="container p-4">
+  <div class="flex align-items-center justify-content-between mb-4">
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-sliders-v" style="font-size: 2rem"></i>
+      <h1 class="m-0">Panel de Administración</h1>
+    </div>
+
+    <p-menu #menu [model]="menuItems()" [popup]="true" />
+    <p-button
+      icon="pi pi-user"
+      severity="info"
+      (onClick)="menu.toggle($event)"
+    />
+  </div>
+
+  <router-outlet />
+</div>
