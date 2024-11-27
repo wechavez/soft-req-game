@@ -11,7 +11,7 @@ import { MenuModule } from 'primeng/menu';
 import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DragDropModule } from 'primeng/dragdrop';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -22,6 +22,13 @@ import { TabViewModule } from 'primeng/tabview';
 import { ChipModule } from 'primeng/chip';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { ChartModule } from 'primeng/chart';
+import { DividerModule } from 'primeng/divider';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { BadgeModule } from 'primeng/badge';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   imports: [
@@ -47,6 +54,13 @@ import { InputIconModule } from 'primeng/inputicon';
     ChipModule,
     IconFieldModule,
     InputIconModule,
+    ChartModule,
+    DividerModule,
+    DropdownModule,
+    InputTextareaModule,
+    BadgeModule,
+    ConfirmPopupModule,
+    ConfirmDialogModule,
   ],
   exports: [
     MenubarModule,
@@ -71,7 +85,14 @@ import { InputIconModule } from 'primeng/inputicon';
     ChipModule,
     IconFieldModule,
     InputIconModule,
+    ChartModule,
+    DividerModule,
+    DropdownModule,
+    InputTextareaModule,
+    BadgeModule,
+    ConfirmPopupModule,
+    ConfirmDialogModule,
   ],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
 })
 export class PrimeNgModule {}

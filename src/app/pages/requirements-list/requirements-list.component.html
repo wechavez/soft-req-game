@@ -1,0 +1,41 @@
+<div class="flex justify-content-between align-items-center mb-4">
+  <h2 class="m-0">Banco de Requerimientos</h2>
+  <p-button
+    (onClick)="navigateToAdminHome()"
+    type="button"
+    icon="pi pi-arrow-left"
+    label="Volver"
+  ></p-button>
+</div>
+
+@if (loading()) {
+<p-skeleton height="200px"></p-skeleton>
+} @else {
+<p-table
+  [value]="requirements()"
+  class="p-datatable-striped"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 50]"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Requerimiento</th>
+      <th>Validez</th>
+      <th>Feedback</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-requirement>
+    <tr>
+      <td>{{ requirement.text | appParseHtml }}</td>
+      <td>
+        <p-badge
+          [value]="requirement.isValid ? 'Válido' : 'Inválido'"
+          [severity]="requirement.isValid ? 'success' : 'danger'"
+        ></p-badge>
+      </td>
+      <td>{{ requirement.feedback | appParseHtml }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+}

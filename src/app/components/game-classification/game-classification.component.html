@@ -1,4 +1,4 @@
-<div class="flex justify-content-between">
+<div class="flex justify-content-between mb-4">
   <p-button
     severity="danger"
     icon="pi pi-times"
@@ -20,34 +20,9 @@
   />
 </div>
 
-<div
-  class="flex-1 p-3 border-1 border-dashed border-round"
-  pDroppable
-  (onDrop)="dropUnclassified()"
->
-  @if (unclassifiedRequirements().length == 0) {
-  <div class="flex flex-column align-items-center gap-2">
-    <p class="text-center">Arrastre aquí los requisitos no clasificados</p>
-    <i class="pi pi-arrow-circle-down" style="font-size: 3rem"></i>
-  </div>
-  }
-  <ul class="list-none p-0 m-0 no-classified-container">
-    <li
-      *ngFor="let requirement of unclassifiedRequirements()"
-      class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white"
-      pDraggable
-      (onDragStart)="dragStart(requirement)"
-      (onDragEnd)="dragEnd()"
-    >
-      <span class="material-symbols-outlined">drag_indicator</span>
-      {{ requirement.text }}
-    </li>
-  </ul>
-</div>
-
-<div class="grid grid-nogutter gap-3" style="flex: 2">
+<div class="classification-container grid grid-nogutter gap-3">
   <div
-    class="col p-2 border-1 border-dashed border-green-400 border-round"
+    class="col p-3 border-1 border-dashed border-round h-full overflow-y-auto"
     pDroppable
     (onDrop)="dropGood()"
   >
@@ -60,23 +35,49 @@
     </div>
     }
     <ul
-      class="list-none flex flex-column gap-2 p-0 m-0"
+      class="list-none p-0 m-0 flex flex-column gap-3"
       *ngIf="selectedGoodRequirements"
     >
       <li
         *ngFor="let requirement of selectedGoodRequirements()"
-        class="p-3 border-round shadow-1 bg-green-400 font-semibold flex align-items-center gap-2 border-1 border-white"
+        class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white"
         pDraggable
         (onDragStart)="dragStart(requirement)"
         (onDragEnd)="dragEnd()"
       >
         <span class="material-symbols-outlined">drag_indicator</span>
-        {{ requirement.text }}
+        {{ requirement.text | appParseHtml }}
       </li>
     </ul>
   </div>
+
   <div
-    class="col p-2 border-1 border-dashed border-pink-400 border-round"
+    class="col p-3 border-1 border-dashed border-round h-full overflow-y-auto"
+    pDroppable
+    (onDrop)="dropUnclassified()"
+  >
+    @if (unclassifiedRequirements().length == 0) {
+    <div class="flex flex-column align-items-center gap-2">
+      <p class="text-center">Arrastre aquí los requisitos no clasificados</p>
+      <i class="pi pi-arrow-circle-down" style="font-size: 3rem"></i>
+    </div>
+    }
+    <ul class="list-none p-0 m-0 flex flex-column gap-3">
+      <li
+        *ngFor="let requirement of unclassifiedRequirements()"
+        class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white"
+        pDraggable
+        (onDragStart)="dragStart(requirement)"
+        (onDragEnd)="dragEnd()"
+      >
+        <span class="material-symbols-outlined">drag_indicator</span>
+        {{ requirement.text | appParseHtml }}
+      </li>
+    </ul>
+  </div>
+
+  <div
+    class="col p-3 border-1 border-dashed border-round h-full overflow-y-auto"
     pDroppable
     (onDrop)="dropBad()"
   >
@@ -89,18 +90,18 @@
     </div>
     }
     <ul
-      class="list-none flex flex-wrap align-items-start gap-2 p-0 m-0"
+      class="list-none p-0 m-0 flex flex-column gap-3"
       *ngIf="selectedBadRequirements"
     >
       <li
         *ngFor="let requirement of selectedBadRequirements()"
         pDraggable
-        class="p-3 border-round shadow-1 bg-pink-400 font-semibold flex align-items-center gap-2 border-1 border-white"
+        class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white"
         (onDragStart)="dragStart(requirement)"
         (onDragEnd)="dragEnd()"
       >
         <span class="material-symbols-outlined">drag_indicator</span>
-        {{ requirement.text }}
+        {{ requirement.text | appParseHtml }}
       </li>
     </ul>
   </div>

@@ -29,6 +29,11 @@ import { switchMap } from 'rxjs';
   templateUrl: './home.component.html',
   styles: [
     `
+      :host {
+        display: block;
+        height: 100%;
+      }
+
       :host ::ng-deep {
         [pDraggable] {
           cursor: move;
@@ -36,9 +41,6 @@ import { switchMap } from 'rxjs';
       }
     `,
   ],
-  host: {
-    class: 'flex flex-1 justify-content-center',
-  },
 })
 export class HomeComponent implements OnInit {
   contentGenerationService = inject(ContentGenerationService);
@@ -90,7 +92,7 @@ export class HomeComponent implements OnInit {
     this.gameStatus.set('loading');
 
     this.contentGenerationService
-      .getRequirements()
+      .getRequirements(this.roomCode()!)
       .pipe(
         switchMap((requirements) => {
           this.unclassifiedRequirements.set(requirements);

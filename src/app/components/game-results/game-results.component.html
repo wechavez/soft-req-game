@@ -9,8 +9,11 @@
     ></i>
   </p>
 </div>
+<!-- 43 -->
 
-<div class="flex flex-column gap-4 mb-3">
+<div
+  class="results-container flex flex-column gap-4 border-dashed border-1 p-4 border-round"
+>
   <div
     *ngFor="let result of results()"
     class="p-4 border-round border-1"
@@ -22,7 +25,8 @@
     <div class="flex justify-content-between mb-3">
       <div class="flex gap-2 align-items-center">
         <p class="font-semibold m-0">
-          {{ result.requirement.no }}. {{ result.requirement.text }}
+          {{ result.requirement.no }}.
+          {{ result.requirement.text | appParseHtml }}
         </p>
       </div>
 
@@ -41,12 +45,12 @@
         class="pi pi-info-circle"
         style="font-size: 1rem; color: var(--gray-500)"
       ></i>
-      Feedback: {{ result.requirement.feedback }}
+      Feedback: {{ result.requirement.feedback | appParseHtml }}
     </p>
   </div>
 </div>
 
-<div class="flex justify-content-end gap-4">
+<div class="flex justify-content-end gap-4 mt-3">
   <p-button
     label="Volver al inicio"
     severity="secondary"
@@ -61,3 +65,4 @@
   ></p-button>
   }
 </div>
+<!-- 56 -->

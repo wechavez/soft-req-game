@@ -12,6 +12,11 @@ import { MainNavigationBarComponent } from '@components';
       width: 100%;
       max-width: 1024px;
       margin: 0 auto;
+      height: 100vh;
+    }
+
+    .outlet {
+      height: calc(100% - 77px);
     }
   `,
 })

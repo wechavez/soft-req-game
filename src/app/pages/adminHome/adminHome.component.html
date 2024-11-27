@@ -1,23 +1,19 @@
-<div class="flex gap-4 mb-4">
-  <p-card subheader="Total Cursos" class="flex-1">
-    <p class="m-0 text-2xl font-bold">
-      {{ rooms().length }}
-    </p>
-  </p-card>
-  <p-card subheader="Estudiantes Registrados" class="flex-1">
-    <p class="m-0 text-2xl font-bold">20</p>
-  </p-card>
-  <p-card subheader="Tasa de Finalización" class="flex-1">
-    <p class="m-0 text-2xl font-bold">80%</p>
-  </p-card>
-</div>
+<p-toast />
+<p-confirmDialog />
 
+@if (loading()) {
+<p-skeleton height="300px" />
+} @else {
 <p-card>
   <p-table [value]="rooms()" [paginator]="true" [rows]="10">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h2 class="m-0">Listado de Cursos</h2>
-        <p-button icon="pi pi-plus" label="Nuevo" (onClick)="showDialog()" />
+        <p-button
+          icon="pi pi-plus"
+          label="Nuevo"
+          (onClick)="navigateToNewCourse()"
+        />
       </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -25,6 +21,7 @@
         <th>Código</th>
         <th>Nombre</th>
         <th>Max. Intentos</th>
+        <th>Items por intento</th>
         <th>Acciones</th>
       </tr>
     </ng-template>
@@ -33,85 +30,34 @@
         <td>{{ room.room_code }}</td>
         <td>{{ room.room_name }}</td>
         <td>{{ room.max_attempts }}</td>
+        <td>{{ room.items_per_attempt }}</td>
         <td>
           <div class="flex gap-2">
             <p-button
+              (onClick)="navigateToCourseStats(room.id)"
               type="button"
               icon="pi pi-chart-bar"
               severity="secondary"
+              pTooltip="Ver estadísticas"
             ></p-button>
-            <button
-              pButton
+            <p-button
+              (onClick)="navigateToRequirementsList(room.id)"
+              type="button"
+              icon="pi pi-list"
+              severity="warning"
+              pTooltip="Ver banco de requerimientos"
+            ></p-button>
+            <p-button
               type="button"
               severity="danger"
               icon="pi pi-trash"
-            ></button>
+              pTooltip="Eliminar curso"
+              (onClick)="removeRoom(room.id)"
+            ></p-button>
           </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </p-card>
-
-<p-dialog
-  header="Crear curso"
-  [modal]="true"
-  [(visible)]="visible"
-  [style]="{ width: '90%', maxWidth: '30rem' }"
->
-  <form [formGroup]="roomForm">
-    <span class="p-text-secondary block mb-5"
-      >Completa la información para crear un nuevo curso.</span
-    >
-    <div class="flex align-items-center gap-3 mb-3">
-      <label for="code" class="font-semibold w-6rem">Código</label>
-      <input
-        pInputText
-        id="code"
-        formControlName="room_code"
-        class="flex-auto"
-        autocomplete="off"
-      />
-    </div>
-    <div class="flex align-items-center gap-3 mb-5">
-      <label for="name" class="font-semibold w-6rem">Nombre</label>
-      <input
-        pInputText
-        id="name"
-        formControlName="room_name"
-        class="flex-auto"
-        autocomplete="off"
-      />
-    </div>
-    <div class="flex align-items-center gap-3 mb-5">
-      <label for="maxAttempts" class="font-semibold w-6rem"
-        >Max. Intentos</label
-      >
-      <p-inputNumber
-        id="maxAttempts"
-        formControlName="max_attempts"
-        [min]="1"
-        [showButtons]="true"
-        buttonLayout="horizontal"
-        spinnerMode="horizontal"
-        decrementButtonClass="p-button-secondary"
-        incrementButtonClass="p-button-secondary"
-        incrementButtonIcon="pi pi-plus"
-        decrementButtonIcon="pi pi-minus"
-        inputStyleClass="w-4rem text-center"
-      ></p-inputNumber>
-    </div>
-    <div class="flex justify-content-end gap-2">
-      <p-button
-        label="Cancelar"
-        severity="secondary"
-        (onClick)="visible = false"
-      />
-      <p-button
-        label="Crear"
-        (onClick)="onSubmit()"
-        [disabled]="roomForm.invalid"
-      />
-    </div>
-  </form>
-</p-dialog>
+}

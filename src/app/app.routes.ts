@@ -14,6 +14,8 @@ import {
   CoursesComponent,
   HistoryComponent,
   CourseMetricsComponent,
+  NewCourseComponent,
+  RequirementsListComponent,
 } from '@pages';
 
 export const routes: Routes = [
@@ -46,8 +48,16 @@ export const routes: Routes = [
         component: AdminHomeComponent,
       },
       {
-        path: 'course-metrics/:room_code',
+        path: 'course-metrics/:room_id',
         component: CourseMetricsComponent,
+      },
+      {
+        path: 'new-course',
+        component: NewCourseComponent,
+      },
+      {
+        path: 'requirements-list/:room_id',
+        component: RequirementsListComponent,
       },
     ],
   },

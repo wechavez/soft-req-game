@@ -10,6 +10,7 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { ParseHtmlPipe } from '@pipes';
 import { StudentService } from '@services';
 import { GameStatus, Requirement, RequirementResult } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
@@ -18,22 +19,18 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-game-classification',
   standalone: true,
-  imports: [PrimeNgModule, CommonModule],
+  imports: [PrimeNgModule, CommonModule, ParseHtmlPipe],
   templateUrl: './game-classification.component.html',
   styles: `
     :host {
-      width: 100%;
-      max-width: 1024px;
+      display: block;
+      height: 100%;
     }
-    .no-classified-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+
+    .classification-container {
+      height: calc(100% - 61px);
     }
   `,
-  host: {
-    class: 'flex-1 flex flex-column gap-3',
-  },
 })
 export class GameClassificationComponent implements OnInit {
   messageService = inject(MessageService);

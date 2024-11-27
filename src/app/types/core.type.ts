@@ -5,9 +5,13 @@ export interface Room {
   user_id: number;
   created_at: string;
   max_attempts: number;
+  items_per_attempt: number;
 }
 export interface CreateRoomDto
-  extends Omit<Room, 'id' | 'created_at' | 'user_id'> {}
+  extends Omit<Room, 'id' | 'created_at' | 'user_id'> {
+  language: string;
+  additional_context: string;
+}
 
 export interface EnrolledCourse {
   id: number;

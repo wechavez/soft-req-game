@@ -1,12 +1,12 @@
 <p-toast />
 
 @if (gameStatus() === 'not-started') { @if (loadingAttemptInfo()) {
-<div class="flex-1 flex flex-column justify-content-center align-items-center">
+<div class="h-full flex flex-column justify-content-center align-items-center">
   <p-progressSpinner ariaLabel="loading" />
   <p>Verificando intentos restantes...</p>
 </div>
 } @else {
-<div class="flex-1 flex flex-column justify-content-center align-items-center">
+<div class="h-full flex flex-column justify-content-center align-items-center">
   <p class="m-0 mb-2 text-center text-2xl">Curso: {{ roomCode() }}</p>
   <p class="m-0 mb-4 text-center text-xl text-gray-400">
     @if (remainingAttempts() && remainingAttempts()! > 0) { Intentos restantes:
@@ -32,7 +32,7 @@
   </div>
 </div>
 } } @else if (gameStatus() === 'loading') {
-<div class="flex-1 flex flex-column justify-content-center align-items-center">
+<div class="h-full flex flex-column justify-content-center align-items-center">
   <p-progressSpinner ariaLabel="loading" />
   <p>Generando contenido...</p>
 </div>

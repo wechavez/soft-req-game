@@ -6,15 +6,13 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormControl } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from '@services/admin.service';
 import { AuthService } from '@services/auth.service';
-import { CreateRoomDto, Room } from '@types';
+import { Room } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-admin-home',
@@ -27,10 +25,12 @@ export class AdminHomeComponent implements OnInit {
   private adminService = inject(AdminService);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
 
   rooms = signal<Room[]>([]);
 
-  visible: boolean = false;
+  loading = signal(true);
 
   menuItems = signal<MenuItem[]>([
     {
@@ -43,37 +43,48 @@ export class AdminHomeComponent implements OnInit {
     },
   ]);
 
-  roomForm = new FormGroup({
-    room_code: new FormControl('', [Validators.required]),
-    room_name: new FormControl('', [Validators.required]),
-    max_attempts: new FormControl(1, [Validators.required]),
-  });
-
-  showDialog() {
-    this.visible = true;
+  ngOnInit() {
+    this.getRooms();
   }
 
-  ngOnInit() {
+  navigateToCourseStats(courseId: string) {
+    this.router.navigate(['admin', 'course-metrics', courseId]);
+  }
+
+  navigateToNewCourse() {
+    this.router.navigate(['admin', 'new-course']);
+  }
+
+  navigateToRequirementsList(roomId: string) {
+    this.router.navigate(['admin', 'requirements-list', roomId]);
+  }
+
+  getRooms() {
+    this.loading.set(true);
     this.adminService.getRooms().subscribe((rooms) => {
       this.rooms.set(rooms);
+      this.loading.set(false);
     });
   }
 
-  createRoom() {
-    const createRoomDto: CreateRoomDto = {
-      room_code: this.roomForm.get('room_code')?.value ?? '',
-      room_name: this.roomForm.get('room_name')?.value ?? '',
-      max_attempts: this.roomForm.get('max_attempts')?.value ?? 1,
-    };
-
-    this.adminService.createRoom(createRoomDto).subscribe((room) => {
-      this.rooms.set([...this.rooms(), room]);
-      this.visible = false;
+  removeRoom(roomId: string) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de querer eliminar este curso?',
+      header: 'Eliminar curso',
+      accept: () => {
+        this.adminService.removeRoom(roomId).subscribe({
+          next: () => {
+            this.getRooms();
+          },
+          error: () => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error al eliminar el curso',
+            });
+          },
+        });
+      },
     });
-  }
-
-  onSubmit() {
-    if (this.roomForm.invalid) return;
-    this.createRoom();
   }
 }

@@ -1,44 +1,30 @@
-<h1 class="m-0 mb-4 text-2xl font-bold">Analíticas del Curso</h1>
+<div class="flex justify-content-between align-items-center mb-4">
+  <h1 class="m-0 text-2xl font-bold">Analíticas del Curso</h1>
 
-<div class="grid">
-  <p-card
-    class="col-12 md:col-6 lg:col-4"
-    [style]="{ height: '200px' }"
-    header="Promedio de calificación"
-  ></p-card>
-  <p-card
-    class="col-12 md:col-6 lg:col-4"
-    [style]="{ 'min-height': '200px' }"
-    header="Tiempo promedio para completar una partida"
-  ></p-card>
-  <p-card
-    class="col-12 md:col-6 lg:col-4"
-    [style]="{ 'min-height': '200px' }"
-    header="Tasa de abandono"
-  ></p-card>
-  <p-card
-    class="col-12 md:col-6 lg:col-4"
-    [style]="{ 'min-height': '200px' }"
-    header="Cantidad de intentos realizados por estudiante"
-  ></p-card>
-  <p-card
-    class="col-12 md:col-6 lg:col-4"
-    [style]="{ 'min-height': '200px' }"
-    header="Distribución de calificaciones"
-  ></p-card>
-  <p-card
-    class="col-12 md:col-6 lg:col-4"
-    [style]="{ 'min-height': '200px' }"
-    header="Mejor y peor desempeño de estudiantes"
-  ></p-card>
-  <p-card
-    class="col-12 md:col-6 lg:col-4"
-    [style]="{ 'min-height': '200px' }"
-    header="Estudiantes que no han participado en el curso"
-  ></p-card>
-  <p-card
-    class="col-12 md:col-6 lg:col-4"
-    [style]="{ 'min-height': '200px' }"
-    header="Promedio de requerimientos por partida"
-  ></p-card>
+  <p-button
+    label="Volver"
+    icon="pi pi-arrow-left"
+    (onClick)="goBack()"
+  ></p-button>
 </div>
+
+@if (!loading && metrics) {
+
+<p-chart type="bar" [data]="chartData" [options]="chartData" />
+
+<div class="grid mt-4">
+  <p-card class="col-12 md:col-6" header="Promedio de calificación">
+    <p class="text-2xl font-bold p-0">{{ metrics.score_average * 10 }}</p>
+  </p-card>
+  <p-card class="col-12 md:col-6" header="Tiempo promedio">
+    <p class="text-2xl font-bold p-0">{{ metrics.time_average }} segundos</p>
+  </p-card>
+  <p-card class="col-12 md:col-6" header="Tasa de abandono">
+    <p class="text-2xl font-bold p-0">{{ metrics.dropout_rate * 100 }}%</p>
+  </p-card>
+  <p-card class="col-12 md:col-6" header="Cant. Intentos">
+    <p class="text-2xl font-bold p-0">{{ metrics.total_attempts }}</p>
+  </p-card>
+</div>
+
+}

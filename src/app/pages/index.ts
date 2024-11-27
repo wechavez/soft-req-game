@@ -6,3 +6,5 @@ export { AdminHomeComponent } from './adminHome/adminHome.component';
 export { CoursesComponent } from './courses/courses.component';
 export { HistoryComponent } from './history/history.component';
 export { CourseMetricsComponent } from './course-metrics/course-metrics.component';
+export { NewCourseComponent } from './new-course/new-course.component';
+export { RequirementsListComponent } from './requirements-list/requirements-list.component';

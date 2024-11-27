@@ -14,7 +14,7 @@ import { MessageService } from 'primeng/api';
   templateUrl: './courses.component.html',
   styles: ``,
   host: {
-    class: 'flex-1',
+    class: 'block h-full',
   },
 })
 export class CoursesComponent {
