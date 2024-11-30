@@ -15,6 +15,8 @@ import { delay, Observable, tap } from 'rxjs';
 export class StudentService {
   private apiUrl = environment.apiUrl;
 
+  enrolledCourses = signal<EnrolledCourse[] | null>(null);
+
   currentGameAttempt = signal<{
     id?: string;
     roomCode?: string;
@@ -27,7 +29,12 @@ export class StudentService {
 
   getEnrolledCourses() {
     const url = `${this.apiUrl}/rooms/enrolled`;
-    return this.http.get<EnrolledCourse[]>(url).pipe(delay(1000));
+    return this.http.get<EnrolledCourse[]>(url).pipe(
+      delay(1000),
+      tap((courses) => {
+        this.enrolledCourses.set(courses);
+      })
+    );
   }
 
   enrollInCourse(roomCode: string) {
@@ -36,23 +43,18 @@ export class StudentService {
   }
 
   checkAttemptsRemaining(
-    roomCode: string
+    courseId: number
   ): Observable<{ remaining: number; max_attempts: number }> {
-    const url = `${this.apiUrl}/attempts/check`;
-    return this.http
-      .post<{ remaining: number; max_attempts: number }>(url, {
-        room_code: roomCode,
+    const url = `${this.apiUrl}/attempts/${courseId}`;
+    return this.http.get<{ remaining: number; max_attempts: number }>(url).pipe(
+      delay(1000),
+      tap(({ remaining }) => {
+        this.currentGameAttempt.update((current) => ({
+          ...current,
+          remaining,
+        }));
       })
-      .pipe(
-        delay(1000),
-        tap(({ remaining }) => {
-          this.currentGameAttempt.update((current) => ({
-            ...current,
-            roomCode,
-            remaining,
-          }));
-        })
-      );
+    );
   }
 
   registerAttempt(

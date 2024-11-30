@@ -1,7 +1,17 @@
 <p-menubar [model]="navItems()">
+  <ng-template pTemplate="start">
+    <div class="flex align-items-center">
+      <img src="/images/ug-logo.png" alt="Logo" style="height: 38px" />
+    </div>
+  </ng-template>
+
   <ng-template pTemplate="item" let-item>
     @if (item.route) {
-    <a [routerLink]="item.route" class="p-menuitem-link">
+    <a
+      [routerLink]="item.route"
+      class="p-menuitem-link"
+      [class.active]="router.isActive(item.route, false)"
+    >
       <span [class]="item.icon"></span>
       <span class="ml-2">{{ item.label }}</span>
     </a>
@@ -20,11 +30,15 @@
   </ng-template>
 
   <ng-template pTemplate="end">
-    <p-menu #menu [model]="menuItems()" [popup]="true" />
-    <p-button
-      icon="pi pi-user"
-      severity="info"
-      (onClick)="menu.toggle($event)"
-    />
+    <div class="flex align-items-center gap-2">
+      <span class="ml-2">{{ userName() }}</span>
+
+      <p-menu #menu [model]="menuItems()" [popup]="true" />
+      <p-button
+        icon="pi pi-user"
+        severity="info"
+        (onClick)="menu.toggle($event)"
+      />
+    </div>
   </ng-template>
 </p-menubar>

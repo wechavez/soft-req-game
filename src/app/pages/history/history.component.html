@@ -1,21 +1,23 @@
-@if (loading()) {
-<div class="flex justify-content-between align-items-center mb-4">
-  <p-skeleton height="34px" width="20rem" />
-</div>
-
-<p-skeleton height="220px" />
-
-} @else {
 <div class="flex justify-content-between align-items-center mb-4">
   <h1 class="m-0">Historial de Juegos</h1>
+
+  <p-button
+    label="Volver"
+    icon="pi pi-arrow-left"
+    severity="secondary"
+    (onClick)="navigateToCourses()"
+  ></p-button>
 </div>
 
+@if (loading()) {
+<p-skeleton height="200px" />
+} @else {
 <p-card>
   <p-table
-    #attemptsTable
     [value]="attempts()"
     [paginator]="true"
-    [rows]="5"
+    [alwaysShowPaginator]="true"
+    [rows]="10"
     [rowsPerPageOptions]="[5, 10, 20]"
     [globalFilterFields]="['room_code', 'room_name', 'created_at']"
   >
@@ -95,5 +97,4 @@
     </ng-template>
   </p-table>
 </p-card>
-
 }

@@ -3,19 +3,13 @@ import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '@services';
 import { PrimeNgModule } from '@ui/primeng.module';
 import { MenuItem } from 'primeng/api';
+import { MainNavigationBarComponent } from '../../components/main-navigation-bar/main-navigation-bar.component';
 
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [PrimeNgModule, RouterOutlet],
+  imports: [PrimeNgModule, RouterOutlet, MainNavigationBarComponent],
   templateUrl: './admin-layout.component.html',
-  styles: `
-    .container {
-      width: 100%;
-      max-width: 1024px;
-      margin: 0 auto;
-    }
-  `,
 })
 export class AdminLayoutComponent {
   private router = inject(Router);

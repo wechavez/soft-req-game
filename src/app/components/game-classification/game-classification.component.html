@@ -40,7 +40,7 @@
     >
       <li
         *ngFor="let requirement of selectedGoodRequirements()"
-        class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white"
+        class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white bg-white"
         pDraggable
         (onDragStart)="dragStart(requirement)"
         (onDragEnd)="dragEnd()"
@@ -65,7 +65,7 @@
     <ul class="list-none p-0 m-0 flex flex-column gap-3">
       <li
         *ngFor="let requirement of unclassifiedRequirements()"
-        class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white"
+        class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white bg-white"
         pDraggable
         (onDragStart)="dragStart(requirement)"
         (onDragEnd)="dragEnd()"
@@ -96,7 +96,7 @@
       <li
         *ngFor="let requirement of selectedBadRequirements()"
         pDraggable
-        class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white"
+        class="p-3 border-round shadow-1 font-semibold flex align-items-center gap-2 border-1 border-white bg-white"
         (onDragStart)="dragStart(requirement)"
         (onDragEnd)="dragEnd()"
       >

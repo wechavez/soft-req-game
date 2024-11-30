@@ -1,101 +1,143 @@
-<form [formGroup]="roomForm">
-  <span class="p-text-secondary block mb-5"
-    >Completa la información para crear un nuevo curso.</span
-  >
+<p-toast />
 
-  <h2>Configuración de la Sala</h2>
-  <p-divider />
-  <div class="flex align-items-center gap-3 mb-3">
-    <label for="code" class="font-semibold w-6rem">Código</label>
-    <input
-      pInputText
-      id="code"
-      formControlName="room_code"
-      class="flex-auto"
-      autocomplete="off"
+<form [formGroup]="courseForm">
+  <div class="mb-6 flex justify-content-between align-items-center">
+    <h1 class="text-2xl font-semibold m-0">Nuevo Curso</h1>
+
+    <p-button
+      label="Volver"
+      severity="secondary"
+      icon="pi pi-arrow-left"
+      (onClick)="navigateToAdminHome()"
     />
   </div>
-  <div class="flex align-items-center gap-3 mb-5">
-    <label for="name" class="font-semibold w-6rem">Nombre</label>
-    <input
-      pInputText
-      id="name"
-      formControlName="room_name"
-      class="flex-auto"
-      autocomplete="off"
-    />
-  </div>
-  <div class="flex align-items-center gap-3 mb-5">
-    <label for="maxAttempts" class="font-semibold w-6rem">Max. Intentos</label>
-    <p-inputNumber
-      id="maxAttempts"
-      formControlName="max_attempts"
-      [min]="1"
-      [showButtons]="true"
-      buttonLayout="horizontal"
-      spinnerMode="horizontal"
-      decrementButtonClass="p-button-secondary"
-      incrementButtonClass="p-button-secondary"
-      incrementButtonIcon="pi pi-plus"
-      decrementButtonIcon="pi pi-minus"
-      inputStyleClass="w-4rem text-center"
-    ></p-inputNumber>
-  </div>
 
-  <div class="flex align-items-center gap-3 mb-5">
-    <label for="itemsPerAttempt" class="font-semibold w-6rem"
-      >Items por intento</label
-    >
-    <p-inputNumber
-      id="itemsPerAttempt"
-      formControlName="items_per_attempt"
-      [min]="1"
-      [showButtons]="true"
-      buttonLayout="horizontal"
-      spinnerMode="horizontal"
-      decrementButtonClass="p-button-secondary"
-      incrementButtonClass="p-button-secondary"
-      inputStyleClass="w-4rem text-center"
-    ></p-inputNumber>
-  </div>
+  <div class="flex flex-column md:flex-row gap-3 md:gap-6 mb-6">
+    <div class="flex-1">
+      <h2 class="text-xl">Configuración del Curso</h2>
+      <p-divider />
+      <div class="flex align-items-center gap-3 mb-3">
+        <label for="code" class="font-semibold w-7rem">Código</label>
+        <div class="flex-auto flex flex-column gap-2">
+          <input
+            pInputText
+            id="code"
+            formControlName="room_code"
+            autocomplete="off"
+          />
+          <small id="code-help">
+            Asigna un código para el curso. Por ejemplo: SOF-S-MA-2-1
+          </small>
+        </div>
+      </div>
 
-  <h2>Configuración del Juego</h2>
-  <p-divider />
+      <div class="flex align-items-center gap-3 mb-5">
+        <label for="name" class="font-semibold w-7rem">Nombre</label>
+        <div class="flex-auto flex flex-column gap-2">
+          <input
+            pInputText
+            id="name"
+            formControlName="room_name"
+            autocomplete="off"
+          />
+          <small id="name-help">
+            Asigna un nombre para el curso. Por ejemplo: Ingeniería de Software
+          </small>
+        </div>
+      </div>
+      <div class="flex align-items-center gap-3 mb-5">
+        <label for="maxAttempts" class="font-semibold w-7rem">
+          Max. Intentos
+        </label>
+        <div class="flex-auto flex flex-column gap-2">
+          <p-inputNumber
+            id="maxAttempts"
+            formControlName="max_attempts"
+            [min]="1"
+            [showButtons]="true"
+            buttonLayout="horizontal"
+            spinnerMode="horizontal"
+            decrementButtonClass="p-button-info"
+            incrementButtonClass="p-button-info"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            inputStyleClass="w-4rem text-center"
+          ></p-inputNumber>
+          <small id="maxAttempts-help">
+            Asigna el número máximo de intentos para el curso.
+          </small>
+        </div>
+      </div>
 
-  <div class="flex align-items-center gap-3 mb-5">
-    <label for="language" class="font-semibold w-6rem">Idioma</label>
-    <p-dropdown
-      id="language"
-      class="flex-auto"
-      formControlName="language"
-      [options]="languages()"
-      optionLabel="name"
-      placeholder="Selecciona un idioma"
-    />
-  </div>
-  <div class="flex align-items-center gap-3 mb-5">
-    <label for="additionalContext" class="font-semibold w-6rem"
-      >Contexto Adicional</label
-    >
-    <textarea
-      rows="5"
-      cols="30"
-      pInputTextarea
-      formControlName="additional_context"
-    ></textarea>
+      <div class="flex align-items-center gap-3">
+        <label for="itemsPerAttempt" class="font-semibold w-7rem">
+          Items por intento
+        </label>
+        <div class="flex-auto flex flex-column gap-2">
+          <p-inputNumber
+            id="itemsPerAttempt"
+            formControlName="items_per_attempt"
+            [min]="1"
+            [showButtons]="true"
+            buttonLayout="horizontal"
+            spinnerMode="horizontal"
+            decrementButtonClass="p-button-info"
+            incrementButtonClass="p-button-info"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            inputStyleClass="w-4rem text-center"
+          ></p-inputNumber>
+          <small id="itemsPerAttempt-help">
+            Asigna la cantidad de requerimientos que se mostrarán en cada
+            intento.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex-1">
+      <h2 class="text-xl">Generación de Contenido</h2>
+      <p-divider />
+
+      <div class="flex align-items-center gap-3 mb-5">
+        <label for="language" class="font-semibold w-7rem">Idioma</label>
+        <div class="flex-auto flex flex-column gap-2">
+          <p-dropdown
+            id="language"
+            formControlName="language"
+            [options]="languages()"
+            optionLabel="name"
+            placeholder="Selecciona un idioma"
+          />
+          <small id="language-help">
+            Selecciona el idioma en el que se generará el contenido.
+          </small>
+        </div>
+      </div>
+      <div class="flex align-items-center gap-3">
+        <label for="additionalContext" class="font-semibold w-7rem">
+          Contexto Adicional
+        </label>
+        <div class="flex-auto flex flex-column gap-2">
+          <textarea
+            rows="5"
+            pInputTextarea
+            formControlName="additional_context"
+          ></textarea>
+          <small id="additionalContext-help">
+            Puedes agregar un contexto o temática sobre la cual basar el
+            contenido. Por ejemplo: "Proyecto web de una tienda de ropa"
+          </small>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="flex justify-content-end gap-2">
     <p-button
-      label="Cancelar"
-      severity="secondary"
-      (onClick)="navigateToAdminHome()"
-      [disabled]="createLoading()"
-    />
-    <p-button
-      label="Crear"
+      label="Crear y Generar Contenido"
       (onClick)="onSubmit()"
-      [disabled]="roomForm.invalid || createLoading()"
+      [disabled]="courseForm.invalid || createLoading()"
       [loading]="createLoading()"
     />
   </div>

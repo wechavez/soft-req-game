@@ -25,17 +25,17 @@ export class AdminService {
   }
 
   removeRoom(roomId: string) {
-    const url = `${this.apiUrl}/rooms/remove`;
-    return this.http.post(url, { room_id: roomId }).pipe(delay(1000));
+    const url = `${this.apiUrl}/rooms/${roomId}`;
+    return this.http.delete(url).pipe(delay(1000));
   }
 
-  getCourseMetrics(courseId: string): Observable<CourseMetrics> {
-    const url = `${this.apiUrl}/admin/course-stats`;
-    return this.http.post<CourseMetrics>(url, { course_id: courseId });
+  getCourseMetrics(courseId: number): Observable<CourseMetrics> {
+    const url = `${this.apiUrl}/admin/course-stats/${courseId}`;
+    return this.http.get<CourseMetrics>(url);
   }
 
-  getGeneratedRequirements(courseId: string): Observable<Requirement[]> {
-    const url = `${this.apiUrl}/admin/course-content`;
-    return this.http.post<Requirement[]>(url, { course_id: courseId });
+  getGeneratedRequirements(courseId: number): Observable<Requirement[]> {
+    const url = `${this.apiUrl}/admin/course-content/${courseId}`;
+    return this.http.get<Requirement[]>(url);
   }
 }

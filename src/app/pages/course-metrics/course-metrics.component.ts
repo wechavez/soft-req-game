@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '@services/admin.service';
 import { CourseMetrics } from '@types';
@@ -22,7 +22,7 @@ export class CourseMetricsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  courseId = this.route.snapshot.params['room_id'];
+  courseId = signal<number | null>(null);
 
   metrics: CourseMetrics | null = null;
   loading = true;
@@ -82,12 +82,21 @@ export class CourseMetricsComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.courseId.set(+params['courseId']);
+    });
+
+    if (!this.courseId()) {
+      this.router.navigate(['admin']);
+      return;
+    }
+
     this.getCourseMetrics();
   }
 
   getCourseMetrics() {
     this.loading = true;
-    this.adminService.getCourseMetrics(this.courseId).subscribe({
+    this.adminService.getCourseMetrics(this.courseId()!).subscribe({
       next: (metrics) => {
         this.metrics = metrics;
         this.fetchScoreDistribution();

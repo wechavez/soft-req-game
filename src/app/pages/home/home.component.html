@@ -1,13 +1,16 @@
 <p-toast />
 
-@if (gameStatus() === 'not-started') { @if (loadingAttemptInfo()) {
+@if (gameStatus() === 'not-started') { @if (loadingAttemptInfo() ||
+loadingEnrolledCourses()) {
 <div class="h-full flex flex-column justify-content-center align-items-center">
   <p-progressSpinner ariaLabel="loading" />
   <p>Verificando intentos restantes...</p>
 </div>
 } @else {
 <div class="h-full flex flex-column justify-content-center align-items-center">
-  <p class="m-0 mb-2 text-center text-2xl">Curso: {{ roomCode() }}</p>
+  <p class="m-0 mb-2 text-center text-2xl">
+    Curso: {{ pageCourse()?.room_code }}
+  </p>
   <p class="m-0 mb-4 text-center text-xl text-gray-400">
     @if (remainingAttempts() && remainingAttempts()! > 0) { Intentos restantes:
     {{ remainingAttempts() }}

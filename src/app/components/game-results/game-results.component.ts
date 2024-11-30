@@ -19,18 +19,6 @@ import { PrimeNgModule } from '@ui/primeng.module';
   standalone: true,
   imports: [PrimeNgModule, CommonModule, ParseHtmlPipe],
   templateUrl: './game-results.component.html',
-  styles: `
-    :host {
-      display: block;
-      height: 100%;
-      overflow-y: auto;
-    }
-
-    .results-container {
-      height: calc(100% - 99px);
-      overflow-y: auto;
-    }
-  `,
 })
 export class GameResultsComponent {
   private studentService = inject(StudentService);

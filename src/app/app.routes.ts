@@ -6,7 +6,6 @@ import {
   GameLayoutComponent,
 } from '@layouts';
 import {
-  AnalyticsComponent,
   HomeComponent,
   LoginComponent,
   RegisterComponent,
@@ -48,7 +47,7 @@ export const routes: Routes = [
         component: AdminHomeComponent,
       },
       {
-        path: 'course-metrics/:room_id',
+        path: 'course-metrics/:courseId',
         component: CourseMetricsComponent,
       },
       {
@@ -56,7 +55,7 @@ export const routes: Routes = [
         component: NewCourseComponent,
       },
       {
-        path: 'requirements-list/:room_id',
+        path: 'requirements-list/:courseId',
         component: RequirementsListComponent,
       },
     ],
@@ -71,12 +70,8 @@ export const routes: Routes = [
         component: CoursesComponent,
       },
       {
-        path: 'game/:room_code',
+        path: 'game/:courseId',
         component: HomeComponent,
-      },
-      {
-        path: 'analytics',
-        component: AnalyticsComponent,
       },
       {
         path: 'history',

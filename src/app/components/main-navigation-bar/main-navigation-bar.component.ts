@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@services';
 import { PrimeNgModule } from '@ui/primeng.module';
@@ -18,8 +18,11 @@ export class MainNavigationBarComponent {
 
   user = this.authService.user;
 
+  userName = computed(
+    () => `${this.user()?.first_name} ${this.user()?.last_name}`
+  );
+
   menuItems = signal<MenuItem[]>([
-    { label: 'Opciones', icon: 'pi pi-cog' },
     {
       label: 'Salir',
       icon: 'pi pi-sign-out',

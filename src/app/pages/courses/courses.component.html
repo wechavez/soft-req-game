@@ -1,17 +1,5 @@
 <p-toast />
 
-@if (loadingCourses()) {
-<div class="flex justify-content-between align-items-center mb-4">
-  <p-skeleton height="40px" width="20rem" />
-
-  <p-skeleton height="40px" width="120px" />
-</div>
-<div class="grid">
-  @for (i of [1,2,3]; track i) {
-  <p-skeleton height="220px" class="col-12 sm:col-6 md:col-4" />
-  }
-</div>
-} @else {
 <div class="flex justify-content-between align-items-center mb-4">
   <h1 class="m-0">Listado de Cursos</h1>
 
@@ -22,8 +10,16 @@
   ></p-button>
 </div>
 
+@if (loadingCourses()) {
 <div class="grid">
-  @for (room of rooms(); track room.id) {
+  @for (i of [1,2,3]; track i) {
+  <p-skeleton height="220px" class="col-12 sm:col-6 md:col-4" />
+  }
+</div>
+} @else {
+
+<div class="grid">
+  @for (room of enrolledCourses(); track room.id) {
   <p-card
     header="{{ room.room_code }}"
     subheader="{{ room.room_name }}"
@@ -39,12 +35,18 @@
           class="w-full"
           styleClass="w-full"
           icon="pi pi-arrow-right"
-          (onClick)="navigateToGame(room.room_code)"
-          [loading]="courseAttemptLoading() === room.room_code"
+          (onClick)="navigateToGame(room.id)"
+          [loading]="courseAttemptLoading() === room.id"
         />
       </div>
     </ng-template>
   </p-card>
+  } @empty {
+  <div class="col-12 flex justify-content-center">
+    <app-empty-state
+      message="Actualmente no tienes cursos inscritos. Inscríbete a uno para empezar a jugar."
+    />
+  </div>
   }
 </div>
 }

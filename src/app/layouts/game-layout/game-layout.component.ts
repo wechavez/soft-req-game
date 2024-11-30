@@ -7,17 +7,5 @@ import { MainNavigationBarComponent } from '@components';
   standalone: true,
   imports: [RouterOutlet, MainNavigationBarComponent],
   templateUrl: './game-layout.component.html',
-  styles: `
-    .container {
-      width: 100%;
-      max-width: 1024px;
-      margin: 0 auto;
-      height: 100vh;
-    }
-
-    .outlet {
-      height: calc(100% - 77px);
-    }
-  `,
 })
 export class GameLayoutComponent {}

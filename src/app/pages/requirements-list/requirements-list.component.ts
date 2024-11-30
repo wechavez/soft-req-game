@@ -17,20 +17,29 @@ export class RequirementsListComponent {
   private adminService = inject(AdminService);
   private route = inject(ActivatedRoute);
 
-  courseId = this.route.snapshot.params['room_id'];
+  courseId = signal<number | null>(null);
 
   loading = signal(true);
 
   requirements = signal<Requirement[]>([]);
 
   ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.courseId.set(+params['courseId']);
+    });
+
+    if (!this.courseId()) {
+      this.router.navigate(['/courses']);
+      return;
+    }
+
     this.getRequirements();
   }
 
   getRequirements() {
     this.loading.set(true);
     this.adminService
-      .getGeneratedRequirements(this.courseId)
+      .getGeneratedRequirements(this.courseId()!)
       .subscribe((requirements) => {
         this.requirements.set(requirements);
         this.loading.set(false);

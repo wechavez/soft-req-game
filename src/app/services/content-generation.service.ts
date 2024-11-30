@@ -14,9 +14,8 @@ export class ContentGenerationService {
 
   constructor() {}
 
-  getRequirements(roomCode: string): Observable<Requirement[]> {
-    const url = `${this.apiUrl}/game/content`;
-
-    return this.http.post<Requirement[]>(url, { roomCode });
+  getRequirements(courseId: number): Observable<Requirement[]> {
+    const url = `${this.apiUrl}/game/content/${courseId}`;
+    return this.http.get<Requirement[]>(url);
   }
 }

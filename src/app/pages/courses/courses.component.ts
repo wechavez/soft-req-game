@@ -2,46 +2,49 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AdminService, StudentService } from '@services';
-import { EnrolledCourse, Room } from '@types';
+import { EmptyStateComponent } from '@components';
+import { StudentService } from '@services';
+import { EnrolledCourse } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
 import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, PrimeNgModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    PrimeNgModule,
+    ReactiveFormsModule,
+    EmptyStateComponent,
+  ],
   templateUrl: './courses.component.html',
-  styles: ``,
-  host: {
-    class: 'block h-full',
-  },
 })
 export class CoursesComponent {
   private studentService = inject(StudentService);
   private messageService = inject(MessageService);
   private router = inject(Router);
 
-  rooms = signal<EnrolledCourse[]>([]);
+  enrolledCourses = this.studentService.enrolledCourses.asReadonly();
 
-  loadingCourses = signal(true);
+  loadingCourses = signal(false);
   enrollInProgress = signal(false);
   enrollDialogVisible = signal(false);
-  courseAttemptLoading = signal<string | null>(null);
+  courseAttemptLoading = signal<number | null>(null);
 
   enrollForm = inject(FormBuilder).group({
     room_code: ['', Validators.required],
   });
 
   ngOnInit() {
-    this.getEnrolledCourses();
+    if (!this.enrolledCourses()) {
+      this.getEnrolledCourses();
+    }
   }
 
   getEnrolledCourses() {
     this.loadingCourses.set(true);
     this.studentService.getEnrolledCourses().subscribe({
-      next: (rooms) => {
-        this.rooms.set(rooms);
+      next: () => {
         this.loadingCourses.set(false);
       },
       error: () => {
@@ -89,12 +92,12 @@ export class CoursesComponent {
     this.enrollDialogVisible.set(true);
   }
 
-  navigateToGame(roomCode: string) {
-    this.courseAttemptLoading.set(roomCode);
-    this.studentService.checkAttemptsRemaining(roomCode).subscribe({
+  navigateToGame(courseId: number) {
+    this.courseAttemptLoading.set(courseId);
+    this.studentService.checkAttemptsRemaining(courseId).subscribe({
       next: ({ remaining }) => {
         if (remaining > 0) {
-          this.router.navigate(['/game', roomCode]);
+          this.router.navigate(['/game', courseId]);
         } else {
           this.messageService.add({
             severity: 'error',

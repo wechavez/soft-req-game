@@ -15,6 +15,7 @@ import { PrimeNgModule } from '@ui/primeng.module';
 import { GameClassificationComponent } from '../../components/game-classification/game-classification.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-home',
@@ -25,15 +26,9 @@ import { switchMap } from 'rxjs';
     GameResultsComponent,
     GameClassificationComponent,
   ],
-
   templateUrl: './home.component.html',
   styles: [
     `
-      :host {
-        display: block;
-        height: 100%;
-      }
-
       :host ::ng-deep {
         [pDraggable] {
           cursor: move;
@@ -47,25 +42,34 @@ export class HomeComponent implements OnInit {
   studentService = inject(StudentService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private messageService = inject(MessageService);
 
   loadingAttemptInfo = signal(false);
+  loadingEnrolledCourses = signal(false);
 
   unclassifiedRequirements = model<Requirement[]>([]);
   selectedGoodRequirements = model<Requirement[]>([]);
   selectedBadRequirements = model<Requirement[]>([]);
 
-  roomCode = signal<string | null>(null);
+  courseId = signal<number | null>(null);
 
   gameStatus = model<GameStatus>('not-started');
 
-  currentGameAttempt = this.studentService.currentGameAttempt;
-  remainingAttempts = computed(() => this.currentGameAttempt()?.remaining);
+  remainingAttempts = computed(
+    () => this.studentService.currentGameAttempt()?.remaining
+  );
+  enrolledCourses = this.studentService.enrolledCourses.asReadonly();
+
+  pageCourse = computed(() =>
+    this.enrolledCourses()?.find((course) => course.id === this.courseId())
+  );
 
   ngOnInit(): void {
-    const params = this.route.snapshot.params;
-    this.roomCode.set(params['room_code']);
+    this.route.params.subscribe((params) => {
+      this.courseId.set(+params['courseId']);
+    });
 
-    if (!this.roomCode()) {
+    if (!this.courseId()) {
       this.router.navigate(['/courses']);
       return;
     }
@@ -73,16 +77,42 @@ export class HomeComponent implements OnInit {
     if (!this.remainingAttempts()) {
       this.checkRemainingAttempts();
     }
+
+    if (!this.enrolledCourses()) {
+      this.getEnrolledCourses();
+    }
   }
 
   checkRemainingAttempts() {
     this.loadingAttemptInfo.set(true);
-    this.studentService.checkAttemptsRemaining(this.roomCode()!).subscribe({
-      next: ({ remaining }) => {
+    this.studentService.checkAttemptsRemaining(this.courseId()!).subscribe({
+      next: () => {
         this.loadingAttemptInfo.set(false);
       },
       error: () => {
         this.loadingAttemptInfo.set(false);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al obtener los intentos restantes',
+        });
+      },
+    });
+  }
+
+  getEnrolledCourses() {
+    this.loadingEnrolledCourses.set(true);
+    this.studentService.getEnrolledCourses().subscribe({
+      next: () => {
+        this.loadingEnrolledCourses.set(false);
+      },
+      error: () => {
+        this.loadingEnrolledCourses.set(false);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al obtener los cursos',
+        });
       },
     });
   }
@@ -92,13 +122,13 @@ export class HomeComponent implements OnInit {
     this.gameStatus.set('loading');
 
     this.contentGenerationService
-      .getRequirements(this.roomCode()!)
+      .getRequirements(this.courseId()!)
       .pipe(
         switchMap((requirements) => {
           this.unclassifiedRequirements.set(requirements);
 
           return this.studentService.registerAttempt(
-            this.roomCode()!,
+            this.courseId()!.toString(),
             requirements.length
           );
         })

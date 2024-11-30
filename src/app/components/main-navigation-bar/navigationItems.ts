@@ -20,10 +20,5 @@ export const navigationItems: Record<User['role'], MenuItem[]> = {
       icon: 'pi pi-users',
       route: '/admin',
     },
-    {
-      label: 'Analíticas',
-      icon: 'pi pi-chart-bar',
-      route: '/admin/analytics',
-    },
   ],
 };
