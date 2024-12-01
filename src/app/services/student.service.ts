@@ -4,7 +4,7 @@ import { environment } from '@environments/environment';
 import {
   AttemptRecord,
   EnrolledCourse,
-  Room,
+  Course,
   UpdateAttemptStatusAndStatsDto,
 } from '@types';
 import { delay, Observable, tap } from 'rxjs';
@@ -19,7 +19,7 @@ export class StudentService {
 
   currentGameAttempt = signal<{
     id?: string;
-    roomCode?: string;
+    courseId?: number;
     remaining?: number;
   } | null>(null);
 
@@ -28,7 +28,7 @@ export class StudentService {
   constructor() {}
 
   getEnrolledCourses() {
-    const url = `${this.apiUrl}/rooms/enrolled`;
+    const url = `${this.apiUrl}/courses/enrolled`;
     return this.http.get<EnrolledCourse[]>(url).pipe(
       delay(1000),
       tap((courses) => {
@@ -37,9 +37,9 @@ export class StudentService {
     );
   }
 
-  enrollInCourse(roomCode: string) {
-    const url = `${this.apiUrl}/rooms/enroll`;
-    return this.http.post(url, { room_code: roomCode }).pipe(delay(1000));
+  enrollInCourse(courseCode: string) {
+    const url = `${this.apiUrl}/courses/enroll`;
+    return this.http.post(url, { course_code: courseCode }).pipe(delay(1000));
   }
 
   checkAttemptsRemaining(
@@ -58,13 +58,13 @@ export class StudentService {
   }
 
   registerAttempt(
-    roomCode: string,
+    courseId: number,
     totalRequirements: number
   ): Observable<{ id: string }> {
     const url = `${this.apiUrl}/attempts`;
     return this.http
       .post<{ id: string }>(url, {
-        room_code: roomCode,
+        course_id: courseId,
         totalreq: totalRequirements,
       })
       .pipe(

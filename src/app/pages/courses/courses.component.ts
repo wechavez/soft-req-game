@@ -32,7 +32,7 @@ export class CoursesComponent {
   courseAttemptLoading = signal<number | null>(null);
 
   enrollForm = inject(FormBuilder).group({
-    room_code: ['', Validators.required],
+    course_code: ['', Validators.required],
   });
 
   ngOnInit() {
@@ -63,9 +63,9 @@ export class CoursesComponent {
     this.enrollForm.markAllAsTouched();
     if (this.enrollForm.invalid) return;
 
-    const roomCode = this.enrollForm.get('room_code')?.value ?? '';
+    const courseCode = this.enrollForm.get('course_code')?.value ?? '';
 
-    this.studentService.enrollInCourse(roomCode).subscribe({
+    this.studentService.enrollInCourse(courseCode).subscribe({
       next: () => {
         this.enrollInProgress.set(false);
         this.enrollDialogVisible.set(false);

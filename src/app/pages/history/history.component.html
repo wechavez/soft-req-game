@@ -19,7 +19,7 @@
     [alwaysShowPaginator]="true"
     [rows]="10"
     [rowsPerPageOptions]="[5, 10, 20]"
-    [globalFilterFields]="['room_code', 'room_name', 'created_at']"
+    [globalFilterFields]="['course_code', 'course_name', 'created_at']"
   >
     <ng-template pTemplate="caption">
       <div class="flex">
@@ -47,7 +47,7 @@
         <th>
           <div class="flex align-items-center gap-2">
             Código
-            <p-columnFilter type="text" field="room_code" display="menu" />
+            <p-columnFilter type="text" field="course_code" display="menu" />
           </div>
         </th>
         <th>
@@ -86,9 +86,9 @@
       <tr>
         <td>{{ attempt.created_at | date : "dd/MM/yyyy - HH:mm" }}</td>
         <td>
-          <p-chip [label]="attempt.room_code" />
+          <p-chip [label]="attempt.course_code" />
         </td>
-        <td>{{ attempt.room_name }}</td>
+        <td>{{ attempt.course_name }}</td>
         <td>{{ attempt.max_attempts }}</td>
         <td>{{ attempt.movements }}</td>
         <td>{{ attempt.time | appTakenTime }}</td>

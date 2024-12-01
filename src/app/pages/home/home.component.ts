@@ -128,13 +128,18 @@ export class HomeComponent implements OnInit {
           this.unclassifiedRequirements.set(requirements);
 
           return this.studentService.registerAttempt(
-            this.courseId()!.toString(),
+            this.courseId()!,
             requirements.length
           );
         })
       )
-      .subscribe(() => {
-        this.gameStatus.set('started');
+      .subscribe({
+        next: () => {
+          this.gameStatus.set('started');
+        },
+        error: () => {
+          this.gameStatus.set('not-started');
+        },
       });
   }
 
@@ -153,5 +158,13 @@ export class HomeComponent implements OnInit {
     this.studentService.resetCurrentGameAttempt();
     this.gameStatus.set('not-started');
     this.checkRemainingAttempts();
+  }
+
+  startNewGame() {
+    this.studentService.resetCurrentGameAttempt();
+    this.gameStatus.set('not-started');
+    this.checkRemainingAttempts();
+
+    this.startGame();
   }
 }

@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from '@services/admin.service';
-import { CreateRoomDto } from '@types';
+import { CreateCourseDto } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
 import { MessageService } from 'primeng/api';
 
@@ -38,15 +38,15 @@ export class NewCourseComponent {
   defaultLanguage = computed(() => this.languages()[0]);
 
   courseForm = new FormGroup({
-    room_code: new FormControl('', [Validators.required]),
-    room_name: new FormControl('', [Validators.required]),
+    course_code: new FormControl('', [Validators.required]),
+    course_name: new FormControl('', [Validators.required]),
     max_attempts: new FormControl(1, [Validators.required]),
     items_per_attempt: new FormControl(5, [Validators.required]),
     language: new FormControl(this.defaultLanguage(), [Validators.required]),
     additional_context: new FormControl(''),
   });
 
-  createRoom(createRoomDto: CreateRoomDto) {
+  createCourse(createCourseDto: CreateCourseDto) {
     this.createLoading.set(true);
     this.messageService.add({
       severity: 'info',
@@ -56,7 +56,7 @@ export class NewCourseComponent {
       detail:
         'Se está creando el curso y generando el contenido, esto puede tardar unos minutos. Una vez finalice, se te redirigirá al panel de administración.',
     });
-    this.adminService.createRoom(createRoomDto).subscribe({
+    this.adminService.createCourse(createCourseDto).subscribe({
       next: () => {
         this.createLoading.set(false);
         this.messageService.clear();
@@ -77,9 +77,9 @@ export class NewCourseComponent {
   onSubmit() {
     if (this.courseForm.invalid) return;
 
-    const createRoomDto: CreateRoomDto = {
-      room_code: this.courseForm.get('room_code')?.value ?? '',
-      room_name: this.courseForm.get('room_name')?.value ?? '',
+    const createCourseDto: CreateCourseDto = {
+      course_code: this.courseForm.get('course_code')?.value ?? '',
+      course_name: this.courseForm.get('course_name')?.value ?? '',
       max_attempts: this.courseForm.get('max_attempts')?.value ?? 1,
       items_per_attempt: this.courseForm.get('items_per_attempt')?.value ?? 5,
       language: this.courseForm.get('language')?.value?.code ?? '',
@@ -87,7 +87,7 @@ export class NewCourseComponent {
         this.courseForm.get('additional_context')?.value ?? '',
     };
 
-    this.createRoom(createRoomDto);
+    this.createCourse(createCourseDto);
   }
 
   navigateToAdminHome() {

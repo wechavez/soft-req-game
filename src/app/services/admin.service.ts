@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { CreateRoomDto, Room, CourseMetrics, Requirement } from '@types';
+import { CreateCourseDto, Course, CourseMetrics, Requirement } from '@types';
 import { delay, Observable } from 'rxjs';
 
 @Injectable({
@@ -14,18 +14,18 @@ export class AdminService {
 
   constructor() {}
 
-  getRooms() {
-    const url = `${this.apiUrl}/rooms`;
-    return this.http.get<Room[]>(url).pipe(delay(1000));
+  getCourses() {
+    const url = `${this.apiUrl}/courses`;
+    return this.http.get<Course[]>(url).pipe(delay(1000));
   }
 
-  createRoom(room: CreateRoomDto) {
-    const url = `${this.apiUrl}/rooms`;
-    return this.http.post<Room>(url, room);
+  createCourse(course: CreateCourseDto) {
+    const url = `${this.apiUrl}/courses`;
+    return this.http.post<Course>(url, course);
   }
 
-  removeRoom(roomId: string) {
-    const url = `${this.apiUrl}/rooms/${roomId}`;
+  removeCourse(courseId: string) {
+    const url = `${this.apiUrl}/courses/${courseId}`;
     return this.http.delete(url).pipe(delay(1000));
   }
 

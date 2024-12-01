@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from '@services/admin.service';
 import { AuthService } from '@services/auth.service';
-import { Room } from '@types';
+import { Course } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
@@ -28,7 +28,7 @@ export class AdminHomeComponent implements OnInit {
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
 
-  rooms = signal<Room[]>([]);
+  courses = signal<Course[]>([]);
 
   loading = signal(true);
 
@@ -44,7 +44,7 @@ export class AdminHomeComponent implements OnInit {
   ]);
 
   ngOnInit() {
-    this.getRooms();
+    this.getCourses();
   }
 
   navigateToCourseStats(courseId: string) {
@@ -55,26 +55,26 @@ export class AdminHomeComponent implements OnInit {
     this.router.navigate(['admin', 'new-course']);
   }
 
-  navigateToRequirementsList(roomId: string) {
-    this.router.navigate(['admin', 'requirements-list', roomId]);
+  navigateToRequirementsList(courseId: string) {
+    this.router.navigate(['admin', 'requirements-list', courseId]);
   }
 
-  getRooms() {
+  getCourses() {
     this.loading.set(true);
-    this.adminService.getRooms().subscribe((rooms) => {
-      this.rooms.set(rooms);
+    this.adminService.getCourses().subscribe((courses) => {
+      this.courses.set(courses);
       this.loading.set(false);
     });
   }
 
-  removeRoom(roomId: string) {
+  removeCourse(courseId: string) {
     this.confirmationService.confirm({
       message: '¿Estás seguro de querer eliminar este curso?',
       header: 'Eliminar curso',
       accept: () => {
-        this.adminService.removeRoom(roomId).subscribe({
+        this.adminService.removeCourse(courseId).subscribe({
           next: () => {
-            this.getRooms();
+            this.getCourses();
           },
           error: () => {
             this.messageService.add({

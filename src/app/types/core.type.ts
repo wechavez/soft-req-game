@@ -1,22 +1,22 @@
-export interface Room {
+export interface Course {
   id: number;
-  room_name: string;
-  room_code: string;
+  course_name: string;
+  course_code: string;
   user_id: number;
   created_at: string;
   max_attempts: number;
   items_per_attempt: number;
 }
-export interface CreateRoomDto
-  extends Omit<Room, 'id' | 'created_at' | 'user_id'> {
+export interface CreateCourseDto
+  extends Omit<Course, 'id' | 'created_at' | 'user_id'> {
   language: string;
   additional_context: string;
 }
 
 export interface EnrolledCourse {
   id: number;
-  room_name: string;
-  room_code: string;
+  course_name: string;
+  course_code: string;
   created_at: Date;
   max_attempts: number;
   teacher_id: number;
@@ -37,14 +37,14 @@ export interface UpdateAttemptStatusAndStatsDto {
 export interface AttemptRecord {
   id: number;
   user_id: number;
-  room_id: number;
+  course_id: number;
   totalreq: number;
   movements: number;
   score: number;
   status: string;
   time: string;
   created_at: Date;
-  room_name: string;
-  room_code: string;
+  course_name: string;
+  course_code: string;
   max_attempts: number;
 }

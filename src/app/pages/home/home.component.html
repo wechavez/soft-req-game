@@ -9,7 +9,7 @@ loadingEnrolledCourses()) {
 } @else {
 <div class="h-full flex flex-column justify-content-center align-items-center">
   <p class="m-0 mb-2 text-center text-2xl">
-    Curso: {{ pageCourse()?.room_code }}
+    Curso: {{ pageCourse()?.course_code }}
   </p>
   <p class="m-0 mb-4 text-center text-xl text-gray-400">
     @if (remainingAttempts() && remainingAttempts()! > 0) { Intentos restantes:
@@ -52,7 +52,7 @@ loadingEnrolledCourses()) {
   [unclassifiedRequirements]="unclassifiedRequirements()"
   [selectedGoodRequirements]="selectedGoodRequirements()"
   [selectedBadRequirements]="selectedBadRequirements()"
-  (clickTryAgain)="startGame()"
+  (clickTryAgain)="startNewGame()"
   (clickBackToHome)="reloadGameAgain()"
 />
 }

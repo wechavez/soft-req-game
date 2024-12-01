@@ -25,7 +25,7 @@ export class GameResultsComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  roomCode = computed(() => this.route.snapshot.params['room_code']);
+  courseCode = computed(() => this.route.snapshot.params['courseId']);
 
   unclassifiedRequirements = input<Requirement[]>([]);
   selectedGoodRequirements = input<Requirement[]>([]);
@@ -33,9 +33,8 @@ export class GameResultsComponent {
 
   gameStatus = model<GameStatus>('not-started');
 
-  remainingAttempts = computed(
-    () => this.studentService.currentGameAttempt()?.remaining
-  );
+  currentAttempt = computed(() => this.studentService.currentGameAttempt());
+  remainingAttempts = computed(() => this.currentAttempt()?.remaining);
   isTheLastAttempt = computed(() => this.remainingAttempts() === 1);
 
   clickTryAgain = output<void>();
