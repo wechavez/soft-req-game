@@ -1,5 +1,10 @@
-<div class="mb-6 flex justify-content-between align-items-center">
-  <h1 class="text-2xl font-semibold m-0">Analíticas del Curso</h1>
+@if (loadingCourses()) {
+<app-common-page-header-skeleton class="mb-4"></app-common-page-header-skeleton>
+} @else {
+<div class="mb-4 flex justify-content-between align-items-center">
+  <h1 class="text-2xl font-semibold m-0">
+    Analíticas del Curso - {{ course()?.course_code }}
+  </h1>
 
   <p-button
     label="Volver"
@@ -8,9 +13,9 @@
     (onClick)="goBack()"
   ></p-button>
 </div>
-
-@if (!loading && metrics) {
-
+} @if (loadingMetrics()) {
+<p-skeleton height="200px"></p-skeleton>
+} @else if (metrics) {
 <div class="flex gap-4">
   <div class="flex-1">
     <p-chart type="bar" [data]="chartData" [options]="chartData" />
@@ -31,5 +36,4 @@
     </p-card>
   </div>
 </div>
-
 }

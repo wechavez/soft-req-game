@@ -1,5 +1,5 @@
 export interface Requirement {
-  no: number;
+  id: number;
   text: string;
   isValid: boolean;
   feedback: string;

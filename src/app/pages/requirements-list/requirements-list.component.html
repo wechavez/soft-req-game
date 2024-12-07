@@ -1,5 +1,12 @@
-<div class="mb-6 flex justify-content-between align-items-center">
-  <h1 class="text-2xl font-semibold m-0">Banco de Requerimientos</h1>
+<p-toast />
+
+@if (loadingCourses()) {
+<app-common-page-header-skeleton class="mb-4"></app-common-page-header-skeleton>
+} @else {
+<div class="mb-4 flex justify-content-between align-items-center">
+  <h1 class="text-2xl font-semibold m-0">
+    Banco de Requerimientos - {{ course()?.course_code }}
+  </h1>
 
   <p-button
     label="Volver"
@@ -8,8 +15,7 @@
     (onClick)="navigateToAdminHome()"
   ></p-button>
 </div>
-
-@if (loading()) {
+} @if (loadingRequirements()) {
 <p-skeleton height="200px"></p-skeleton>
 } @else {
 <p-table
@@ -18,24 +24,71 @@
   [paginator]="true"
   [rows]="10"
   [rowsPerPageOptions]="[10, 20, 50]"
+  (onEditComplete)="onUpdateRequirement($event)"
+  dataKey="id"
 >
   <ng-template pTemplate="header">
     <tr>
-      <th>Requerimiento</th>
-      <th>Validez</th>
-      <th>Feedback</th>
+      <th style="width: 45%">Requerimiento</th>
+      <th style="width: 10%">Validez</th>
+      <th style="width: 45%">Feedback</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-requirement>
+  <ng-template pTemplate="body" let-requirement let-rowIndex="rowIndex">
     <tr>
-      <td>{{ requirement.text | appParseHtml }}</td>
-      <td>
-        <p-badge
-          [value]="requirement.isValid ? 'Válido' : 'Inválido'"
-          [severity]="requirement.isValid ? 'success' : 'danger'"
-        ></p-badge>
+      <td
+        [pEditableColumn]="requirement.text"
+        pEditableColumnField="text"
+        [pEditableColumnRowIndex]="rowIndex"
+      >
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <textarea
+              [(ngModel)]="requirement.text"
+              pInputTextarea
+              class="w-full"
+            ></textarea>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ requirement.text | appParseHtml }}
+          </ng-template>
+        </p-cellEditor>
       </td>
-      <td>{{ requirement.feedback | appParseHtml }}</td>
+      <td
+        [pEditableColumn]="requirement.isValid"
+        pEditableColumnField="isValid"
+        [pEditableColumnRowIndex]="rowIndex"
+      >
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-inputSwitch [(ngModel)]="requirement.isValid"></p-inputSwitch>
+          </ng-template>
+          <ng-template pTemplate="output">
+            <p-badge
+              [value]="requirement.isValid ? 'Válido' : 'Inválido'"
+              [severity]="requirement.isValid ? 'success' : 'danger'"
+            ></p-badge>
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td
+        [pEditableColumn]="requirement.feedback"
+        pEditableColumnField="feedback"
+        [pEditableColumnRowIndex]="rowIndex"
+      >
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <textarea
+              [(ngModel)]="requirement.feedback"
+              pInputTextarea
+              class="w-full"
+            ></textarea>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ requirement.feedback | appParseHtml }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
     </tr>
   </ng-template>
 </p-table>

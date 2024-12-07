@@ -1,5 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommonPageHeaderSkeletonComponent } from '@components';
 import { AdminService } from '@services/admin.service';
 import { CourseMetrics } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
@@ -9,7 +10,7 @@ import { ChartOptions } from 'chart.js';
 @Component({
   selector: 'app-course-metrics',
   standalone: true,
-  imports: [PrimeNgModule],
+  imports: [PrimeNgModule, CommonPageHeaderSkeletonComponent],
   templateUrl: './course-metrics.component.html',
   styles: ``,
   host: {
@@ -23,9 +24,13 @@ export class CourseMetricsComponent implements OnInit {
   private router = inject(Router);
 
   courseId = signal<number | null>(null);
+  course = computed(() =>
+    this.adminService.adminCourses()?.find((c) => c.id === this.courseId())
+  );
 
   metrics: CourseMetrics | null = null;
-  loading = true;
+  loadingMetrics = signal(true);
+  loadingCourses = signal(false);
 
   chartLabels: string[] = [
     '0-1',
@@ -91,21 +96,31 @@ export class CourseMetricsComponent implements OnInit {
       return;
     }
 
+    if (!this.adminService.adminCourses()) {
+      this.getCourses();
+    }
+
     this.getCourseMetrics();
   }
 
   getCourseMetrics() {
-    this.loading = true;
+    this.loadingMetrics.set(true);
     this.adminService.getCourseMetrics(this.courseId()!).subscribe({
       next: (metrics) => {
         this.metrics = metrics;
         this.fetchScoreDistribution();
-        this.loading = false;
+        this.loadingMetrics.set(false);
       },
       error: (error) => {
-        console.log(error);
-        this.loading = false;
+        this.loadingMetrics.set(false);
       },
+    });
+  }
+
+  getCourses() {
+    this.loadingCourses.set(true);
+    this.adminService.getCourses().subscribe(() => {
+      this.loadingCourses.set(false);
     });
   }
 

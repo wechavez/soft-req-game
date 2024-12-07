@@ -77,7 +77,7 @@ export class GameClassificationComponent implements OnInit {
       });
     });
 
-    return results.sort((a, b) => a.requirement.no - b.requirement.no);
+    return results.sort((a, b) => a.requirement.id - b.requirement.id);
   });
 
   score = computed(() => {
@@ -200,13 +200,13 @@ export class GameClassificationComponent implements OnInit {
 
   private removeFromSourceList(requirement: Requirement) {
     this.unclassifiedRequirements.update((requirements) =>
-      requirements.filter((req) => req.no !== requirement.no)
+      requirements.filter((req) => req.id !== requirement.id)
     );
     this.selectedGoodRequirements.update((requirements) =>
-      requirements.filter((req) => req.no !== requirement.no)
+      requirements.filter((req) => req.id !== requirement.id)
     );
     this.selectedBadRequirements.update((requirements) =>
-      requirements.filter((req) => req.no !== requirement.no)
+      requirements.filter((req) => req.id !== requirement.id)
     );
   }
 }

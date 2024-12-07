@@ -5,6 +5,7 @@ import {
   inject,
   OnInit,
   signal,
+  computed,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -28,9 +29,9 @@ export class AdminHomeComponent implements OnInit {
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
 
-  courses = signal<Course[]>([]);
+  courses = computed(() => this.adminService.adminCourses() || []);
 
-  loading = signal(true);
+  loading = signal(false);
 
   menuItems = signal<MenuItem[]>([
     {
@@ -44,7 +45,9 @@ export class AdminHomeComponent implements OnInit {
   ]);
 
   ngOnInit() {
-    this.getCourses();
+    if (!this.adminService.adminCourses()) {
+      this.getCourses();
+    }
   }
 
   navigateToCourseStats(courseId: string) {
@@ -62,7 +65,6 @@ export class AdminHomeComponent implements OnInit {
   getCourses() {
     this.loading.set(true);
     this.adminService.getCourses().subscribe((courses) => {
-      this.courses.set(courses);
       this.loading.set(false);
     });
   }

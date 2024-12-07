@@ -56,7 +56,7 @@ export class GameResultsComponent {
       });
     });
 
-    return results.sort((a, b) => a.requirement.no - b.requirement.no);
+    return results.sort((a, b) => a.requirement.id - b.requirement.id);
   });
 
   score = computed(() => {
