@@ -5,7 +5,7 @@
 } @else {
 <div class="mb-4 flex justify-content-between align-items-center">
   <h1 class="text-2xl font-semibold m-0">
-    Banco de Requerimientos - {{ course()?.course_code }}
+    Banco de Requerimientos "{{ course()?.course_code }}"
   </h1>
 
   <p-button
@@ -18,6 +18,9 @@
 } @if (loadingRequirements()) {
 <p-skeleton height="200px"></p-skeleton>
 } @else {
+
+<p-messages [(value)]="messages" [enableService]="false" [closable]="false" />
+
 <p-table
   [value]="requirements()"
   class="p-datatable-striped"

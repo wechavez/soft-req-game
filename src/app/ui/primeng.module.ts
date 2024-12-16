@@ -30,6 +30,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     ConfirmPopupModule,
     ConfirmDialogModule,
     InputSwitchModule,
+    MessagesModule,
   ],
   exports: [
     MenubarModule,
@@ -95,6 +97,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     ConfirmPopupModule,
     ConfirmDialogModule,
     InputSwitchModule,
+    MessagesModule,
   ],
   providers: [MessageService, ConfirmationService],
 })

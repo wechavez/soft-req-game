@@ -11,8 +11,8 @@
 </div>
 
 <div class="flex flex-column gap-4">
+  @for (result of results(); track result.requirement.id; let index = $index) {
   <div
-    *ngFor="let result of results()"
     class="p-4 border-round border-1"
     style="background-color: var(--surface-a)"
     [ngStyle]="{
@@ -22,7 +22,7 @@
     <div class="flex justify-content-between mb-3">
       <div class="flex gap-2 align-items-center">
         <p class="font-semibold m-0">
-          {{ result.requirement.no }}.
+          {{ $index + 1 }}.
           {{ result.requirement.text | appParseHtml }}
         </p>
       </div>
@@ -45,20 +45,23 @@
       Feedback: {{ result.requirement.feedback | appParseHtml }}
     </p>
   </div>
+  }
 </div>
 
 <div class="flex justify-content-end gap-4 mt-3">
-  <p-button
-    label="Volver al inicio"
-    severity="secondary"
-    icon="pi pi-home"
-    (onClick)="clickBackToHome.emit()"
-  ></p-button>
-  @if (!isTheLastAttempt()) {
-  <p-button
-    label="Intentar de nuevo"
-    icon="pi pi-replay"
-    (onClick)="clickTryAgain.emit()"
-  ></p-button>
-  }
+  <div class="flex justify-content-end gap-4 mt-3">
+    <p-button
+      label="Volver al inicio"
+      severity="secondary"
+      icon="pi pi-home"
+      (onClick)="clickBackToHome.emit()"
+    ></p-button>
+    @if (!isTheLastAttempt()) {
+    <p-button
+      label="Intentar de nuevo"
+      icon="pi pi-replay"
+      (onClick)="clickTryAgain.emit()"
+    ></p-button>
+    }
+  </div>
 </div>

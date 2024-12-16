@@ -6,7 +6,7 @@ import { ParseHtmlPipe } from '@pipes';
 import { AdminService } from '@services';
 import { Requirement } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
-import { MessageService } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { TableEditCompleteEvent } from 'primeng/table';
 
 @Component({
@@ -26,6 +26,15 @@ export class RequirementsListComponent {
   private adminService = inject(AdminService);
   private route = inject(ActivatedRoute);
   private messageService = inject(MessageService);
+
+  messages: Message[] = [
+    {
+      severity: 'info',
+      summary: 'Editar',
+      detail:
+        'Puedes editar el contenido de los requerimientos y su validez dando click en el campo que deseas editar',
+    },
+  ];
 
   courseId = signal<number | null>(null);
   course = computed(() =>
