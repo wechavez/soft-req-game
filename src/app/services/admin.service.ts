@@ -9,7 +9,7 @@ import { delay, Observable, tap } from 'rxjs';
 })
 export class AdminService {
   private apiUrl = environment.apiUrl;
-
+  private templateUrl = environment.templateUrl;
   private http = inject(HttpClient);
 
   constructor() {}
@@ -51,5 +51,14 @@ export class AdminService {
   updateRequirement(requirement: Requirement) {
     const url = `${this.apiUrl}/admin/requirements/${requirement.id}`;
     return this.http.put(url, requirement).pipe(delay(1000));
+  }
+
+  downloadTemplate() {
+    this.http
+      .get(this.templateUrl, { responseType: 'blob' })
+      .subscribe((response) => {
+        const url = window.URL.createObjectURL(response);
+        window.open(url, '_blank');
+      });
   }
 }

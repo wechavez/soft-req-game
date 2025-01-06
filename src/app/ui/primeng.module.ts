@@ -31,6 +31,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MessagesModule } from 'primeng/messages';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   imports: [
@@ -65,6 +66,7 @@ import { MessagesModule } from 'primeng/messages';
     ConfirmDialogModule,
     InputSwitchModule,
     MessagesModule,
+    FileUploadModule,
   ],
   exports: [
     MenubarModule,
@@ -98,6 +100,7 @@ import { MessagesModule } from 'primeng/messages';
     ConfirmDialogModule,
     InputSwitchModule,
     MessagesModule,
+    FileUploadModule,
   ],
   providers: [MessageService, ConfirmationService],
 })

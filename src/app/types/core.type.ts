@@ -1,3 +1,5 @@
+import { Requirement } from './content.type';
+
 export interface Course {
   id: number;
   course_name: string;
@@ -11,6 +13,14 @@ export interface CreateCourseDto
   extends Omit<Course, 'id' | 'created_at' | 'user_id'> {
   language: string;
   additional_context: string;
+  content_mode: 'generated' | 'file_upload';
+  requirements?: CreateRequirementDto[];
+}
+
+export interface CreateRequirementDto {
+  text: string;
+  isValid: boolean;
+  feedback: string;
 }
 
 export interface EnrolledCourse {

@@ -99,37 +99,79 @@
       <h2 class="text-xl">Generación de Contenido</h2>
       <p-divider />
 
-      <div class="flex align-items-center gap-3 mb-5">
-        <label for="language" class="font-semibold w-7rem">Idioma</label>
-        <div class="flex-auto flex flex-column gap-2">
-          <p-dropdown
-            id="language"
-            formControlName="language"
-            [options]="languages()"
-            optionLabel="name"
-            placeholder="Selecciona un idioma"
-          />
-          <small id="language-help">
-            Selecciona el idioma en el que se generará el contenido.
-          </small>
-        </div>
-      </div>
-      <div class="flex align-items-center gap-3">
-        <label for="additionalContext" class="font-semibold w-7rem">
-          Contexto Adicional
-        </label>
-        <div class="flex-auto flex flex-column gap-2">
-          <textarea
-            rows="5"
-            pInputTextarea
-            formControlName="additional_context"
-          ></textarea>
-          <small id="additionalContext-help">
-            Puedes agregar un contexto o temática sobre la cual basar el
-            contenido. Por ejemplo: "Proyecto web de una tienda de ropa"
-          </small>
-        </div>
-      </div>
+      <p-tabView [(activeIndex)]="activeTab">
+        <p-tabPanel header="Asistente OpenAI">
+          <div class="flex align-items-center gap-3 mb-5">
+            <label for="language" class="font-semibold w-7rem">Idioma</label>
+            <div class="flex-auto flex flex-column gap-2">
+              <p-dropdown
+                id="language"
+                formControlName="language"
+                [options]="languages()"
+                optionLabel="name"
+                placeholder="Selecciona un idioma"
+              />
+              <small id="language-help">
+                Selecciona el idioma en el que se generará el contenido.
+              </small>
+            </div>
+          </div>
+          <div class="flex align-items-center gap-3">
+            <label for="additionalContext" class="font-semibold w-7rem">
+              Contexto Adicional
+            </label>
+            <div class="flex-auto flex flex-column gap-2">
+              <textarea
+                rows="5"
+                pInputTextarea
+                formControlName="additional_context"
+              ></textarea>
+              <small id="additionalContext-help">
+                Puedes agregar un contexto o temática sobre la cual basar el
+                contenido. Por ejemplo: "Proyecto web de una tienda de ropa"
+              </small>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Cargar Archivo">
+          <p>
+            Carga un archivo Excel con el banco de requerimientos que usarán en
+            el juego.
+          </p>
+          <ol>
+            <li>
+              Descarga la plantilla de requerimientos en Excel por medio del
+              botón "Descargar Plantilla".
+            </li>
+            <li>
+              Carga el archivo Excel con el banco de requerimientos por medio
+              del botón "Cargar Archivo".
+            </li>
+          </ol>
+          <div
+            class="flex flex-column align-items-center justify-content-center gap-3"
+          >
+            <p-button
+              label="Descargar Plantilla"
+              icon="pi pi-file-excel"
+              severity="info"
+              (onClick)="downloadTemplate()"
+            />
+
+            <p-fileUpload
+              mode="advanced"
+              [customUpload]="true"
+              chooseLabel="Cargar Archivo"
+              chooseIcon="pi pi-upload"
+              cancelIcon="pi pi-times"
+              showUploadButton="false"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              maxFileSize="1000000"
+              (onSelect)="onSelect($event)"
+            />
+          </div>
+        </p-tabPanel>
+      </p-tabView>
     </div>
   </div>
 
