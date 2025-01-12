@@ -1,8 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@environments/environment';
-import { CreateCourseDto, Course, CourseMetrics, Requirement } from '@types';
-import { delay, Observable, tap } from 'rxjs';
+import {
+  CreateCourseDto,
+  Course,
+  CourseMetrics,
+  Requirement,
+  EditCourseDto,
+} from '@types';
+import { delay, map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +39,12 @@ export class AdminService {
     return this.http.post<Course>(url, course);
   }
 
-  removeCourse(courseId: string) {
+  editCourse(courseId: number, course: EditCourseDto) {
+    const url = `${this.apiUrl}/courses/${courseId}`;
+    return this.http.put(url, course).pipe(delay(1000));
+  }
+
+  removeCourse(courseId: number) {
     const url = `${this.apiUrl}/courses/${courseId}`;
     return this.http.delete(url).pipe(delay(1000));
   }
@@ -48,17 +59,20 @@ export class AdminService {
     return this.http.get<Requirement[]>(url).pipe(delay(1000));
   }
 
+  checkIfThereIsAnyAttemptInCourse(courseId: number): Observable<boolean> {
+    const url = `${this.apiUrl}/courses/exists-attempts/${courseId}`;
+    return this.http.get<{ hasAttempts: boolean }>(url).pipe(
+      map((res) => res.hasAttempts),
+      delay(1000)
+    );
+  }
+
   updateRequirement(requirement: Requirement) {
     const url = `${this.apiUrl}/admin/requirements/${requirement.id}`;
     return this.http.put(url, requirement).pipe(delay(1000));
   }
 
   downloadTemplate() {
-    this.http
-      .get(this.templateUrl, { responseType: 'blob' })
-      .subscribe((response) => {
-        const url = window.URL.createObjectURL(response);
-        window.open(url, '_blank');
-      });
+    window.open(this.templateUrl, '_blank');
   }
 }

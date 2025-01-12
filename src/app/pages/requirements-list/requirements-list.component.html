@@ -30,6 +30,17 @@
   (onEditComplete)="onUpdateRequirement($event)"
   dataKey="id"
 >
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      Banco de Requerimientos
+      <p-button
+        icon="pi pi-download"
+        label="Descargar archivo Excel"
+        severity="info"
+        (onClick)="downloadRequirementsList()"
+      />
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 45%">Requerimiento</th>

@@ -8,6 +8,7 @@ import { Requirement } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
 import { Message, MessageService } from 'primeng/api';
 import { TableEditCompleteEvent } from 'primeng/table';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-requirements-list',
@@ -105,6 +106,27 @@ export class RequirementsListComponent {
           detail: error.error.message,
         });
       },
+    });
+  }
+
+  downloadRequirementsList() {
+    const formattedRequirements = this.requirements().map((req) => ({
+      requirement: req.text,
+      isValid: req.isValid ? 1 : 0,
+      feedback: req.feedback,
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(formattedRequirements);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Requerimientos');
+    XLSX.writeFile(
+      workbook,
+      `${this.course()?.course_code}-BancoDeRequerimientos.xlsx`
+    );
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Descargado',
+      detail: 'Archivo descargado correctamente',
     });
   }
 }

@@ -17,6 +17,12 @@ export interface CreateCourseDto
   requirements?: CreateRequirementDto[];
 }
 
+export interface EditCourseDto {
+  course_name: string;
+  max_attempts: number;
+  items_per_attempt: number;
+}
+
 export interface CreateRequirementDto {
   text: string;
   isValid: boolean;
