@@ -98,6 +98,8 @@ export class AdminHomeComponent implements OnInit {
     this.confirmationService.confirm({
       message: '¿Estás seguro de querer eliminar este curso?',
       header: 'Eliminar curso',
+      acceptLabel: 'Eliminar',
+      rejectLabel: 'Cancelar',
       accept: () => {
         this.adminService.removeCourse(courseId).subscribe({
           next: () => {

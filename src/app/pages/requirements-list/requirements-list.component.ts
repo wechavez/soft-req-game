@@ -6,7 +6,7 @@ import { ParseHtmlPipe } from '@pipes';
 import { AdminService } from '@services';
 import { Requirement } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
-import { Message, MessageService } from 'primeng/api';
+import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { TableEditCompleteEvent } from 'primeng/table';
 import * as XLSX from 'xlsx';
 
@@ -27,6 +27,7 @@ export class RequirementsListComponent {
   private adminService = inject(AdminService);
   private route = inject(ActivatedRoute);
   private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
 
   messages: Message[] = [
     {
@@ -85,11 +86,24 @@ export class RequirementsListComponent {
     this.router.navigate(['admin']);
   }
 
+  checkIfRequirementChanged(requirement: Requirement) {
+    const originalRequirement = this.requirements().find(
+      (req) => req.id === requirement.id
+    );
+    return (
+      originalRequirement?.text !== requirement.text ||
+      originalRequirement?.isValid !== requirement.isValid ||
+      originalRequirement?.feedback !== requirement.feedback
+    );
+  }
+
   onUpdateRequirement(ev: TableEditCompleteEvent) {
     const { index } = ev;
     if (index === undefined) return;
     const requirementToUpdate = this.requirements()[index];
     if (!requirementToUpdate) return;
+
+    if (!this.checkIfRequirementChanged(requirementToUpdate)) return;
 
     this.adminService.updateRequirement(requirementToUpdate).subscribe({
       next: () => {
@@ -127,6 +141,41 @@ export class RequirementsListComponent {
       severity: 'success',
       summary: 'Descargado',
       detail: 'Archivo descargado correctamente',
+    });
+  }
+
+  removeRequirement(requirementId: number) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de querer eliminar este requerimiento?',
+      acceptLabel: 'Eliminar',
+      rejectLabel: 'Cancelar',
+      header: 'Eliminar requerimiento',
+      accept: () => {
+        this.adminService
+          .removeRequirement({
+            courseId: this.courseId()!,
+            requirementId,
+          })
+          .subscribe({
+            next: () => {
+              this.requirements.update((requirements) =>
+                requirements.filter((req) => req.id !== requirementId)
+              );
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Eliminado',
+                detail: 'Requerimiento eliminado correctamente',
+              });
+            },
+            error: (error) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error al eliminar',
+                detail: 'Ocurrió un error al eliminar el requerimiento',
+              });
+            },
+          });
+      },
     });
   }
 }

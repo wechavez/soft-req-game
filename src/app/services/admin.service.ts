@@ -7,6 +7,7 @@ import {
   CourseMetrics,
   Requirement,
   EditCourseDto,
+  RemoveRequirementDto,
 } from '@types';
 import { delay, map, Observable, tap } from 'rxjs';
 
@@ -57,6 +58,11 @@ export class AdminService {
   getGeneratedRequirements(courseId: number): Observable<Requirement[]> {
     const url = `${this.apiUrl}/admin/course-content/${courseId}`;
     return this.http.get<Requirement[]>(url).pipe(delay(1000));
+  }
+
+  removeRequirement({ courseId, requirementId }: RemoveRequirementDto) {
+    const url = `${this.apiUrl}/admin/course-content/${courseId}/${requirementId}`;
+    return this.http.delete(url).pipe(delay(1000));
   }
 
   checkIfThereIsAnyAttemptInCourse(courseId: number): Observable<boolean> {

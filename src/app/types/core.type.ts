@@ -29,6 +29,11 @@ export interface CreateRequirementDto {
   feedback: string;
 }
 
+export interface RemoveRequirementDto {
+  courseId: number;
+  requirementId: number;
+}
+
 export interface EnrolledCourse {
   id: number;
   course_name: string;

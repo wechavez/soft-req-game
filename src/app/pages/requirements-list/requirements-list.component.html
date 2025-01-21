@@ -1,4 +1,5 @@
 <p-toast />
+<p-confirmDialog />
 
 @if (loadingCourses()) {
 <app-common-page-header-skeleton class="mb-4"></app-common-page-header-skeleton>
@@ -43,9 +44,10 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th style="width: 45%">Requerimiento</th>
+      <th style="width: 40%">Requerimiento</th>
       <th style="width: 10%">Validez</th>
-      <th style="width: 45%">Feedback</th>
+      <th style="width: 40%">Feedback</th>
+      <th style="width: 10%">Acciones</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-requirement let-rowIndex="rowIndex">
@@ -102,6 +104,14 @@
             {{ requirement.feedback | appParseHtml }}
           </ng-template>
         </p-cellEditor>
+      </td>
+      <td>
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          pTooltip="Eliminar requerimiento"
+          (onClick)="removeRequirement(requirement.id)"
+        />
       </td>
     </tr>
   </ng-template>
