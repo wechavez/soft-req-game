@@ -6,6 +6,9 @@ import {
   EnrolledCourse,
   Course,
   UpdateAttemptStatusAndStatsDto,
+  Requirement,
+  RequirementAttempt,
+  RegisterAttemptDto,
 } from '@types';
 import { delay, Observable, tap } from 'rxjs';
 
@@ -57,15 +60,17 @@ export class StudentService {
     );
   }
 
-  registerAttempt(
-    courseId: number,
-    totalRequirements: number
-  ): Observable<{ id: string }> {
+  registerAttempt({
+    courseId,
+    totalRequirements,
+    requirements,
+  }: RegisterAttemptDto): Observable<{ id: string }> {
     const url = `${this.apiUrl}/attempts`;
     return this.http
       .post<{ id: string }>(url, {
         course_id: courseId,
         totalreq: totalRequirements,
+        requirements: requirements,
       })
       .pipe(
         delay(1000),
@@ -87,8 +92,19 @@ export class StudentService {
     return this.http.put(url, dto).pipe(delay(1000));
   }
 
-  getAttemptsHistory() {
-    const url = `${this.apiUrl}/student/history`;
+  getAttemptsHistory({
+    studentId,
+    courseId,
+  }: {
+    studentId?: number;
+    courseId?: number;
+  }) {
+    if (!studentId) {
+      const url = `${this.apiUrl}/student/history`;
+      return this.http.get<AttemptRecord[]>(url).pipe(delay(1000));
+    }
+
+    const url = `${this.apiUrl}/admin/student-history/${courseId}/${studentId}`;
     return this.http.get<AttemptRecord[]>(url).pipe(delay(1000));
   }
 }

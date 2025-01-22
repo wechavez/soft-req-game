@@ -15,6 +15,8 @@ import {
   CourseMetricsComponent,
   NewCourseComponent,
   RequirementsListComponent,
+  StudentListComponent,
+  AttemptResultsComponent,
 } from '@pages';
 
 export const routes: Routes = [
@@ -49,6 +51,18 @@ export const routes: Routes = [
       {
         path: 'course-metrics/:courseId',
         component: CourseMetricsComponent,
+      },
+      {
+        path: 'student-list/:courseId',
+        component: StudentListComponent,
+      },
+      {
+        path: 'student-history/:courseId/:studentId',
+        component: HistoryComponent,
+      },
+      {
+        path: 'attempt-results/:attemptId',
+        component: AttemptResultsComponent,
       },
       {
         path: 'new-course',

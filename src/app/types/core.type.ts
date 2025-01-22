@@ -1,4 +1,4 @@
-import { Requirement } from './content.type';
+import { Requirement, RequirementAttempt } from './content.type';
 
 export interface Course {
   id: number;
@@ -47,12 +47,19 @@ export interface EnrolledCourse {
 
 export type AttemptStatus = 'completed' | 'abandoned';
 
+export interface RegisterAttemptDto {
+  courseId: number;
+  totalRequirements: number;
+  requirements: RequirementAttempt[];
+}
+
 export interface UpdateAttemptStatusAndStatsDto {
   attemptId: number;
   status: AttemptStatus;
   score: number;
   movements: number;
   time: string;
+  requirements: RequirementAttempt[];
 }
 
 export interface AttemptRecord {

@@ -41,6 +41,13 @@
               pTooltip="Ver estadísticas"
             ></p-button>
             <p-button
+              (onClick)="navigateToStudentList(course.id)"
+              type="button"
+              icon="pi pi-users"
+              severity="success"
+              pTooltip="Ver listado de estudiantes"
+            ></p-button>
+            <p-button
               (onClick)="navigateToRequirementsList(course.id)"
               type="button"
               icon="pi pi-list"

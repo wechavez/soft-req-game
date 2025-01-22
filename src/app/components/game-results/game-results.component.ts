@@ -7,9 +7,8 @@ import {
   model,
   output,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
-import { ParseHtmlPipe } from '@pipes';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RequirementResultItemComponent } from '@components';
 import { StudentService } from '@services';
 import { GameStatus, Requirement, RequirementResult } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
@@ -17,7 +16,7 @@ import { PrimeNgModule } from '@ui/primeng.module';
 @Component({
   selector: 'app-game-results',
   standalone: true,
-  imports: [PrimeNgModule, CommonModule, ParseHtmlPipe],
+  imports: [PrimeNgModule, CommonModule, RequirementResultItemComponent],
   templateUrl: './game-results.component.html',
 })
 export class GameResultsComponent {

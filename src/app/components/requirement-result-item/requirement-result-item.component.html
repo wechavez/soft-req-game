@@ -1,0 +1,33 @@
+<div
+  class="p-4 border-round border-1"
+  style="background-color: var(--surface-a)"
+  [ngStyle]="{ 'border-color': borderColor() }"
+>
+  <div class="flex justify-content-between mb-3">
+    <div class="flex gap-2 align-items-center">
+      <p class="font-semibold text-lg m-0">
+        {{ index() + 1 }}.
+        {{ text() | appParseHtml }}
+      </p>
+    </div>
+
+    <i
+      [ngClass]="icon()"
+      style="font-size: 1rem"
+      [ngStyle]="{ color: borderColor() }"
+    ></i>
+  </div>
+
+  <p class="text-gray-600 mb-3">
+    <b>Respuesta correcta:</b> {{ isValid() ? "No Ambiguo" : "Ambiguo" }} |
+    <b>Respuesta usuario:</b> {{ userResponse() }}
+  </p>
+
+  <p class="flex align-items-center gap-2 text-gray-400 m-0">
+    <i
+      class="pi pi-info-circle"
+      style="font-size: 1rem; color: var(--gray-500)"
+    ></i>
+    Feedback: {{ feedback() | appParseHtml }}
+  </p>
+</div>

@@ -127,10 +127,14 @@ export class HomeComponent implements OnInit {
         switchMap((requirements) => {
           this.unclassifiedRequirements.set(requirements);
 
-          return this.studentService.registerAttempt(
-            this.courseId()!,
-            requirements.length
-          );
+          return this.studentService.registerAttempt({
+            courseId: this.courseId()!,
+            totalRequirements: requirements.length,
+            requirements: requirements.map((requirement) => ({
+              id: requirement.id,
+              result: 'not-classified',
+            })),
+          });
         })
       )
       .subscribe({

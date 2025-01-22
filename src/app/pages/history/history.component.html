@@ -1,5 +1,8 @@
+@if (loadingStudent()) {
+<app-common-page-header-skeleton class="mb-4"></app-common-page-header-skeleton>
+} @else {
 <div class="flex justify-content-between align-items-center mb-4">
-  <h1 class="m-0">Historial de Juegos</h1>
+  <h1 class="m-0">{{ pageTitle() }}</h1>
 
   <p-button
     label="Volver"
@@ -8,8 +11,7 @@
     (onClick)="navigateToCourses()"
   ></p-button>
 </div>
-
-@if (loading()) {
+}@if (loadingHistory()) {
 <p-skeleton height="200px" />
 } @else {
 <p-card>
@@ -22,8 +24,8 @@
     [globalFilterFields]="['course_code', 'course_name', 'created_at']"
   >
     <ng-template pTemplate="caption">
-      <div class="flex">
-        <p-iconField iconPosition="left" class="ml-auto">
+      <div class="flex justify-content-between">
+        <p-iconField iconPosition="left">
           <p-inputIcon>
             <i class="pi pi-search"></i>
           </p-inputIcon>
@@ -34,6 +36,12 @@
             placeholder="Buscar"
           />
         </p-iconField>
+        <p-button
+          icon="pi pi-download"
+          label="Descargar archivo Excel"
+          severity="info"
+          (onClick)="downloadStudentAttemptList()"
+        />
       </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -80,6 +88,7 @@
             Puntaje
           </div>
         </th>
+        <th>Acciones</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-attempt>
@@ -93,6 +102,14 @@
         <td>{{ attempt.movements }}</td>
         <td>{{ attempt.time | appTakenTime }}</td>
         <td>{{ (attempt.score * 100).toFixed(2) }}%</td>
+        <td>
+          <p-button
+            icon="pi pi-list"
+            severity="info"
+            pTooltip="Ver resultados"
+            (onClick)="navigateToResults(attempt.id)"
+          ></p-button>
+        </td>
       </tr>
     </ng-template>
   </p-table>

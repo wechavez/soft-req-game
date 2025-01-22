@@ -1,0 +1,65 @@
+<p-toast />
+<p-confirmDialog />
+
+@if (loadingCourses()) {
+<app-common-page-header-skeleton class="mb-4"></app-common-page-header-skeleton>
+} @else {
+<div class="mb-4 flex justify-content-between align-items-center">
+  <h1 class="text-2xl font-semibold m-0">
+    Estudiantes del curso "{{ course()?.course_code }}"
+  </h1>
+
+  <p-button
+    label="Volver"
+    icon="pi pi-arrow-left"
+    severity="secondary"
+    (onClick)="navigateToAdminHome()"
+  ></p-button>
+</div>
+} @if (loadingStudents()) {
+<p-skeleton height="200px"></p-skeleton>
+} @else {
+<p-table
+  [value]="students()"
+  class="p-datatable-striped"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 50]"
+  dataKey="id"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      Estudiantes del curso
+      <p-button
+        icon="pi pi-download"
+        label="Descargar archivo Excel"
+        severity="info"
+        (onClick)="downloadStudentsList()"
+      />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 40%">Estudiante</th>
+      <th style="width: 40%">Correo</th>
+      <th style="width: 20%">Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-student let-rowIndex="rowIndex">
+    <tr>
+      <td>{{ student.first_name }} {{ student.last_name }}</td>
+      <td>
+        {{ student.email }}
+      </td>
+      <td>
+        <p-button
+          icon="pi pi-history"
+          severity="info"
+          pTooltip="Ver historial de intentos"
+          (onClick)="navigateToStudentHistory(student.id)"
+        />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+}

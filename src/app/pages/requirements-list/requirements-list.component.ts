@@ -131,10 +131,14 @@ export class RequirementsListComponent {
     }));
     const worksheet = XLSX.utils.json_to_sheet(formattedRequirements);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Requerimientos');
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      `Requerimientos ${this.course()?.course_code}`
+    );
     XLSX.writeFile(
       workbook,
-      `${this.course()?.course_code}-BancoDeRequerimientos.xlsx`
+      `${this.course()?.course_code} - Banco de Requerimientos.xlsx`
     );
 
     this.messageService.add({

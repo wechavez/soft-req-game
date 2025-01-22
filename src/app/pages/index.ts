@@ -7,3 +7,5 @@ export { HistoryComponent } from './history/history.component';
 export { CourseMetricsComponent } from './course-metrics/course-metrics.component';
 export { NewCourseComponent } from './new-course/new-course.component';
 export { RequirementsListComponent } from './requirements-list/requirements-list.component';
+export { StudentListComponent } from './student-list/student-list.component';
+export { AttemptResultsComponent } from './attempt-results/attempt-results.component';

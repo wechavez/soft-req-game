@@ -187,4 +187,8 @@ export class AdminHomeComponent implements OnInit {
       },
     });
   }
+
+  navigateToStudentList(courseId: number) {
+    this.router.navigate(['admin', 'student-list', courseId]);
+  }
 }

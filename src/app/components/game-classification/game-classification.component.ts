@@ -110,7 +110,32 @@ export class GameClassificationComponent implements OnInit {
 
   abandonGame() {
     this.stopTimer();
-    this.gameStatus.set('not-started');
+
+    this.studentService
+      .updateAttemptStatusAndStats({
+        status: 'abandoned',
+        attemptId: +this.currentAttemptId()!,
+        movements: this.movesCount(),
+        score: this.score(),
+        time: this.timeElapsed(),
+        requirements: this.results().map((r) => ({
+          id: r.requirement.id,
+          result: 'not-classified',
+        })),
+      })
+      .subscribe({
+        next: () => {
+          this.gameStatus.set('not-started');
+        },
+        error: (error) => {
+          this.gameStatus.set('not-started');
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.error.message,
+          });
+        },
+      });
   }
 
   checkResults() {
@@ -135,6 +160,10 @@ export class GameClassificationComponent implements OnInit {
         movements: this.movesCount(),
         score: this.score(),
         time: this.timeElapsed(),
+        requirements: this.results().map((r) => ({
+          id: r.requirement.id,
+          result: r.wasCorrect ? 'correct' : 'incorrect',
+        })),
       })
       .subscribe({
         next: () => {
