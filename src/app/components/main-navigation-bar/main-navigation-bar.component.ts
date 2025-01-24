@@ -27,7 +27,7 @@ export class MainNavigationBarComponent {
       label: 'Salir',
       icon: 'pi pi-sign-out',
       command: () => {
-        this.router.navigate(['auth', 'login']);
+        window.location.replace('/auth/login');
         this.authService.logout();
       },
     },

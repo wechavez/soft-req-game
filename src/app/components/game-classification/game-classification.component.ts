@@ -3,16 +3,19 @@ import {
   Component,
   computed,
   inject,
-  input,
   model,
-  OnDestroy,
   OnInit,
   output,
   signal,
 } from '@angular/core';
 import { ParseHtmlPipe } from '@pipes';
 import { StudentService } from '@services';
-import { GameStatus, Requirement, RequirementResult } from '@types';
+import {
+  GameStatus,
+  Requirement,
+  RequirementResult,
+  UpdateAttemptStatusAndStatsDto,
+} from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
 import { MessageService } from 'primeng/api';
 
@@ -35,6 +38,9 @@ import { MessageService } from 'primeng/api';
 export class GameClassificationComponent implements OnInit {
   messageService = inject(MessageService);
   studentService = inject(StudentService);
+
+  onAbandonGame = output<Omit<UpdateAttemptStatusAndStatsDto, 'attemptId'>>();
+  onCheckResults = output<Omit<UpdateAttemptStatusAndStatsDto, 'attemptId'>>();
 
   unclassifiedRequirements = model<Requirement[]>([]);
   selectedGoodRequirements = model<Requirement[]>([]);
@@ -148,10 +154,7 @@ export class GameClassificationComponent implements OnInit {
     }
 
     this.stopTimer();
-    this.submitResults();
-  }
 
-  submitResults() {
     this.savingAttempt.set(true);
     this.studentService
       .updateAttemptStatusAndStats({

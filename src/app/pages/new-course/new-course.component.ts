@@ -51,7 +51,10 @@ export class NewCourseComponent {
   defaultLanguage = computed(() => this.languages()[0]);
 
   courseForm = new FormGroup({
-    course_code: new FormControl('', [Validators.required]),
+    course_code: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[^\s]+$/),
+    ]),
     course_name: new FormControl('', [Validators.required]),
     max_attempts: new FormControl(1, [Validators.required]),
     items_per_attempt: new FormControl(5, [Validators.required]),

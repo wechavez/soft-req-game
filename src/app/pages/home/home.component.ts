@@ -2,20 +2,19 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  forwardRef,
   inject,
   model,
   OnInit,
   signal,
 } from '@angular/core';
-import { GameResultsComponent } from '@components';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GameClassificationComponent, GameResultsComponent } from '@components';
 import { ContentGenerationService, StudentService } from '@services';
 import { GameStatus, Requirement } from '@types';
-import { RequirementResult } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
-import { GameClassificationComponent } from '../../components/game-classification/game-classification.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -23,9 +22,10 @@ import { MessageService } from 'primeng/api';
   imports: [
     PrimeNgModule,
     CommonModule,
-    GameResultsComponent,
-    GameClassificationComponent,
+    forwardRef(() => GameResultsComponent),
+    forwardRef(() => GameClassificationComponent),
   ],
+  providers: [],
   templateUrl: './home.component.html',
   styles: [
     `

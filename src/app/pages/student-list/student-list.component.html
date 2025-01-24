@@ -29,13 +29,15 @@
 >
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
-      Estudiantes del curso
+      <h2 class="m-0">Estudiantes del curso</h2>
+      @if (students().length > 0) {
       <p-button
         icon="pi pi-download"
         label="Descargar archivo Excel"
         severity="info"
         (onClick)="downloadStudentsList()"
       />
+      }
     </div>
   </ng-template>
   <ng-template pTemplate="header">
@@ -58,6 +60,15 @@
           pTooltip="Ver historial de intentos"
           (onClick)="navigateToStudentHistory(student.id)"
         />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="3">
+        <p class="flex justify-content-center align-items-center">
+          No se encontraron estudiantes
+        </p>
       </td>
     </tr>
   </ng-template>

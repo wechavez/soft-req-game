@@ -1,4 +1,4 @@
-@if (loadingStudent()) {
+@if (loadingStudent() && isInAdminView()) {
 <app-common-page-header-skeleton class="mb-4"></app-common-page-header-skeleton>
 } @else {
 <div class="flex justify-content-between align-items-center mb-4">
@@ -36,12 +36,15 @@
             placeholder="Buscar"
           />
         </p-iconField>
+
+        @if (attempts().length > 0) {
         <p-button
           icon="pi pi-download"
           label="Descargar archivo Excel"
           severity="info"
           (onClick)="downloadStudentAttemptList()"
         />
+        }
       </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -109,6 +112,15 @@
             pTooltip="Ver resultados"
             (onClick)="navigateToResults(attempt.id)"
           ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8">
+          <p class="flex justify-content-center align-items-center">
+            No se encontraron resultados
+          </p>
         </td>
       </tr>
     </ng-template>

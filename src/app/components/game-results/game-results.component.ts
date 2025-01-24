@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  forwardRef,
   inject,
   input,
   model,
@@ -16,7 +17,11 @@ import { PrimeNgModule } from '@ui/primeng.module';
 @Component({
   selector: 'app-game-results',
   standalone: true,
-  imports: [PrimeNgModule, CommonModule, RequirementResultItemComponent],
+  imports: [
+    PrimeNgModule,
+    CommonModule,
+    forwardRef(() => RequirementResultItemComponent),
+  ],
   templateUrl: './game-results.component.html',
 })
 export class GameResultsComponent {

@@ -33,13 +33,15 @@
 >
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
-      Banco de Requerimientos
+      <h2 class="m-0">Banco de Requerimientos</h2>
+      @if (requirements().length > 0) {
       <p-button
         icon="pi pi-download"
         label="Descargar archivo Excel"
         severity="info"
         (onClick)="downloadRequirementsList()"
       />
+      }
     </div>
   </ng-template>
   <ng-template pTemplate="header">
@@ -112,6 +114,15 @@
           pTooltip="Eliminar requerimiento"
           (onClick)="removeRequirement(requirement.id)"
         />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="4">
+        <p class="flex justify-content-center align-items-center">
+          No se encontraron requerimientos
+        </p>
       </td>
     </tr>
   </ng-template>

@@ -4,7 +4,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EmptyStateComponent } from '@components';
 import { StudentService } from '@services';
-import { EnrolledCourse } from '@types';
 import { PrimeNgModule } from '@ui/primeng.module';
 import { MessageService } from 'primeng/api';
 

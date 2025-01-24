@@ -4,10 +4,7 @@ import { environment } from '@environments/environment';
 import {
   AttemptRecord,
   EnrolledCourse,
-  Course,
   UpdateAttemptStatusAndStatsDto,
-  Requirement,
-  RequirementAttempt,
   RegisterAttemptDto,
 } from '@types';
 import { delay, Observable, tap } from 'rxjs';
@@ -27,8 +24,6 @@ export class StudentService {
   } | null>(null);
 
   private http = inject(HttpClient);
-
-  constructor() {}
 
   getEnrolledCourses() {
     const url = `${this.apiUrl}/courses/enrolled`;

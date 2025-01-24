@@ -42,9 +42,7 @@ export class HistoryComponent implements OnInit {
   loadingStudent = signal(true);
   attemptsTable = viewChild<Table>('attemptsTable');
 
-  isInAdminView = computed(
-    () => this.studentId() !== null && this.courseId() !== null
-  );
+  isInAdminView = signal(false);
 
   studentName = computed(() =>
     this.student()
@@ -60,22 +58,24 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
+      console.log(params);
       this.studentId.set(+params['studentId']);
       this.courseId.set(+params['courseId']);
+
+      this.isInAdminView.set(!!this.studentId() && !!this.courseId());
+
+      console.log('isInAdminView', this.isInAdminView());
+
+      if (this.isInAdminView()) {
+        this.getHistory({
+          studentId: this.studentId()!,
+          courseId: this.courseId()!,
+        });
+        this.getStudentById(this.studentId()!);
+      } else {
+        this.getHistory({});
+      }
     });
-
-    this.prepareContent();
-  }
-
-  prepareContent(): void {
-    this.getHistory({
-      studentId: this.studentId()!,
-      courseId: this.courseId()!,
-    });
-
-    if (this.isInAdminView()) {
-      this.getStudentById(this.studentId()!);
-    }
   }
 
   getHistory({
@@ -116,7 +116,7 @@ export class HistoryComponent implements OnInit {
   }
 
   navigateToResults(attemptId: number): void {
-    this.router.navigate(['admin', 'attempt-results', attemptId]);
+    this.router.navigate(['attempt-results', attemptId]);
   }
 
   downloadStudentAttemptList(): void {
