@@ -30,6 +30,7 @@ export class MainNavigationBarComponent {
       icon: 'pi pi-sign-out',
       command: () => {
         this.authService.logout();
+        this.router.navigate(['auth', 'login']);
         this.cleanSessionData();
       },
     },
