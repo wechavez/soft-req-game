@@ -58,13 +58,10 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      console.log(params);
       this.studentId.set(+params['studentId']);
       this.courseId.set(+params['courseId']);
 
       this.isInAdminView.set(!!this.studentId() && !!this.courseId());
-
-      console.log('isInAdminView', this.isInAdminView());
 
       if (this.isInAdminView()) {
         this.getHistory({
@@ -116,7 +113,11 @@ export class HistoryComponent implements OnInit {
   }
 
   navigateToResults(attemptId: number): void {
-    this.router.navigate(['attempt-results', attemptId]);
+    if (this.isInAdminView()) {
+      this.router.navigate(['admin', 'attempt-results', attemptId]);
+    } else {
+      this.router.navigate(['attempt-results', attemptId]);
+    }
   }
 
   downloadStudentAttemptList(): void {

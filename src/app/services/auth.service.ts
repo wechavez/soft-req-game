@@ -95,4 +95,8 @@ export class AuthService {
       this.logout();
     }
   }
+
+  cleanData() {
+    this.user.set(undefined);
+  }
 }

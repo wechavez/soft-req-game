@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '@services';
+import { AdminService, AuthService, StudentService } from '@services';
 import { PrimeNgModule } from '@ui/primeng.module';
 import { MenuItem } from 'primeng/api';
 import { navigationItems } from './navigationItems';
@@ -17,6 +17,8 @@ export class MainNavigationBarComponent {
   router = inject(Router);
 
   user = this.authService.user;
+  studentService = inject(StudentService);
+  adminService = inject(AdminService);
 
   userName = computed(
     () => `${this.user()?.first_name} ${this.user()?.last_name}`
@@ -27,8 +29,8 @@ export class MainNavigationBarComponent {
       label: 'Salir',
       icon: 'pi pi-sign-out',
       command: () => {
-        window.location.replace('/auth/login');
         this.authService.logout();
+        this.cleanSessionData();
       },
     },
   ]);
@@ -36,4 +38,10 @@ export class MainNavigationBarComponent {
   navItems = signal<MenuItem[]>(
     navigationItems[this.user()?.role || 'student']
   );
+
+  cleanSessionData() {
+    this.authService.cleanData();
+    this.studentService.cleanData();
+    this.adminService.cleanData();
+  }
 }

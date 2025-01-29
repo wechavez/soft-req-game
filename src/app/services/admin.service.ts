@@ -98,4 +98,8 @@ export class AdminService {
   downloadTemplate() {
     window.open(this.templateUrl, '_blank');
   }
+
+  cleanData() {
+    this._adminCourses.set(null);
+  }
 }

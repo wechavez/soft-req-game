@@ -61,6 +61,10 @@ export const routes: Routes = [
         component: HistoryComponent,
       },
       {
+        path: 'attempt-results/:attemptId',
+        component: AttemptResultsComponent,
+      },
+      {
         path: 'new-course',
         component: NewCourseComponent,
       },

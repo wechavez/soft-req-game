@@ -14,6 +14,7 @@ import { delay, Observable, tap } from 'rxjs';
 })
 export class StudentService {
   private apiUrl = environment.apiUrl;
+  private http = inject(HttpClient);
 
   enrolledCourses = signal<EnrolledCourse[] | null>(null);
 
@@ -22,8 +23,6 @@ export class StudentService {
     courseId?: number;
     remaining?: number;
   } | null>(null);
-
-  private http = inject(HttpClient);
 
   getEnrolledCourses() {
     const url = `${this.apiUrl}/courses/enrolled`;
@@ -101,5 +100,10 @@ export class StudentService {
 
     const url = `${this.apiUrl}/admin/student-history/${courseId}/${studentId}`;
     return this.http.get<AttemptRecord[]>(url).pipe(delay(1000));
+  }
+
+  cleanData() {
+    this.enrolledCourses.set(null);
+    this.currentGameAttempt.set(null);
   }
 }
